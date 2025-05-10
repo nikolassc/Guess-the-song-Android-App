@@ -10,6 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+<<<<<<< HEAD
         android:theme="@style/Theme.GSong"
         tools:targetApi="31">
        <activity
@@ -17,14 +18,26 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+=======
+        android:theme="@style/Theme.GuessSong"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.GuessSong">
+>>>>>>> 534669c5e1d338b46baeaec9e7574aee41eae682
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".GameActivity"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+=======
+>>>>>>> 534669c5e1d338b46baeaec9e7574aee41eae682
     </application>
 
 </manifest>

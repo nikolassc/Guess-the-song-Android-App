@@ -1,3 +1,7 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">Guess the Song</string>
+=======
+    <string name="app_name">Guess-Song</string>
+>>>>>>> 534669c5e1d338b46baeaec9e7574aee41eae682
 </resources>
