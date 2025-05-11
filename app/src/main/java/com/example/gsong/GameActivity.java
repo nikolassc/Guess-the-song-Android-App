@@ -3,11 +3,14 @@ package com.example.gsong;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.example.gsong.data.SongDao;
 import com.example.gsong.data.SongDatabase;
 import com.example.gsong.models.Song;
@@ -18,6 +21,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+
+
+
 public class GameActivity extends  AppCompatActivity{
     private MediaPlayer mediaPlayer;
     private TextView feedbackText;
@@ -25,6 +31,29 @@ public class GameActivity extends  AppCompatActivity{
     private List<Song> allSongs;
     private List<Song> playedSongs = new ArrayList<>();
     private Button btn1, btn2, btn3, btn4, nextBtn;
+
+    private final Handler animationHandler = new Handler();
+    private final Runnable frameInvalidator = new Runnable() {
+        @Override
+        public void run() {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
+                if (vinylAnimation != null) {
+                    vinylAnimation.invalidate(); // Force redraw
+                }
+                animationHandler.postDelayed(this, 10); // Keep refreshing every 100ms
+            }
+        }
+    };
+
+    //Animations of disks array
+    private final String[] vinylFiles = {
+            "vinyl1.json",
+            "vinyl2.json",
+            "vinyl3.json",
+            "vinyl4.json",
+            "vinyl5.json"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstansedState){
@@ -122,6 +151,18 @@ public class GameActivity extends  AppCompatActivity{
         } else {
             feedbackText.setText("Audio file not found: " + rightSong.fileName);
         }
+
+        // Randomly select one of the vinyl animations
+        Random rand = new Random();
+        String selectedVinyl = vinylFiles[rand.nextInt(vinylFiles.length)];
+
+        // Find the Lottie view and play the animation
+        LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
+        vinylAnimation.setAnimation(selectedVinyl);
+        vinylAnimation.setRepeatCount(LottieDrawable.INFINITE);
+        vinylAnimation.setRepeatMode(LottieDrawable.RESTART);
+        vinylAnimation.playAnimation();
+        animationHandler.post(frameInvalidator);
     }
 
 
@@ -137,6 +178,11 @@ public class GameActivity extends  AppCompatActivity{
         else{
             feedbackText.setText("Wrong! The correct answer was: " + rightSong.title);
         }
+        LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
+        vinylAnimation.pauseAnimation();
+        animationHandler.removeCallbacks(frameInvalidator);
+
+
         disableAllOptions();
     }
 
