@@ -6,7 +6,6 @@
         <item name="colorAccent">@color/button</item>
     </style>
 
-
     <style name="AppButton" parent="Widget.AppCompat.Button">
         <item name="android:background">@color/button</item>
         <item name="android:textColor">@color/text</item>
@@ -16,4 +15,3 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 </resources>
-

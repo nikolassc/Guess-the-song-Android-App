@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@android:color/white"
-    android:gravity="center_horizontal">
+    android:background="@color/background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <!-- Vinyl Animation -->
     <com.airbnb.lottie.LottieAnimationView
@@ -15,20 +15,19 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         app:lottie_autoPlay="false"
-        app:lottie_loop="true"
         app:lottie_fileName="vinyl1.json"
-        />
+        app:lottie_loop="true" />
 
     <!-- Question Text -->
     <TextView
         android:id="@+id/feedback_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose an Artist"
-        android:textSize="18sp"
         android:layout_marginBottom="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Choose an Artist"
         android:textColor="@android:color/black"
-        android:fontFamily="sans-serif-medium" />
+        android:textSize="18sp" />
 
     <!-- Buttons -->
     <Button

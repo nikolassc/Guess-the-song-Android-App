@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Palette -->
-    <color name="primary_light">#BB86FC</color> <!-- Light purple -->
-    <color name="primary_dark">#3700B3</color> <!-- Deep purple -->
-    <color name="secondary">#03DAC5</color>     <!-- Cyan  -->
-    <color name="magenta">#FF00AA</color>       <!-- Magenta -->
-
-    <color name="purple_500">#6200EE</color>
-    <color name="purple_700">#3700B3</color>
-    <color name="teal_200">#03DAC5</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-
-
-    <!-- Backgrounds & Text -->
-    <color name="background_light">#FFFFFF</color>
-    <color name="background_dark">#121212</color>
-    <color name="text_light">#000000</color>
-    <color name="text_dark">#FFFFFF</color>
-
+    <!-- Light Mode Colors -->
+    <color name="background">#BB86FC</color>
+    <color name="button">#FF00AA</color>
+    <color name="text">#000000</color>
 </resources>
