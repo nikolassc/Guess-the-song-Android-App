@@ -26,5 +26,41 @@
   {
     "title": "Fortunate Son - Creedence Clearwater Revival",
     "fileName": "fortunate_son"
+  },
+  {
+    "title": "Creep - Radiohead",
+    "fileName": "creep"
+  },
+  {
+    "title": "What A Wonderful World - Louis Armstrong",
+    "fileName": "wonderful_world"
+  },
+  {
+    "title": "My Way - Frank Sinatra",
+    "fileName": "my_way"
+  },
+  {
+    "title": "Που 'σαι Θανάση - Γιώργος Ζαμπέτας",
+    "fileName": "pou_se_thanasi"
+  },
+  {
+    "title": "Αχ Ελλάδα - Νίκος Παπάζογλου",
+    "fileName": "ax_ellada"
+  },
+  {
+    "title": "Gangsta's Paradise - Coolio",
+    "fileName": "gangsta_paradise"
+  },
+  {
+    "title": "Σαν Σταρ Του Σινεμά - Νίκος Ζιώγαλας",
+    "fileName": "star_tou_cinema"
+  },
+  {
+    "title": "Hotel California - Eagles",
+    "fileName": "hotel_california"
+  },
+  {
+    "title": "House Of The Rising Sun - The Animals",
+    "fileName": "house_of_the_rising_sun"
   }
 ]

@@ -1,5 +1,6 @@
 package com.example.gsong;
 
+import android.graphics.drawable.TransitionDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
@@ -76,7 +78,7 @@ public class GameActivity extends  AppCompatActivity{
         //Listener for every button
         View.OnClickListener listener = v -> {
             Button clicked = (Button) v;
-            checkAnswer(clicked.getText().toString());
+            checkAnswer(clicked.getText().toString(), clicked);
         };
         btn1.setOnClickListener(listener);
         btn2.setOnClickListener(listener);
@@ -165,27 +167,45 @@ public class GameActivity extends  AppCompatActivity{
         animationHandler.post(frameInvalidator);
     }
 
-
-    private void checkAnswer(String answer){
+    private void checkAnswer(String answer, Button clickedButton) {
         if(mediaPlayer != null && mediaPlayer.isPlaying()){
             mediaPlayer.pause();
             mediaPlayer.seekTo(0);
         }
 
-        if(answer.equals(rightSong.title)){
-            feedbackText.setText("Correct!");
-        }
-        else{
-            feedbackText.setText("Wrong! The correct answer was: " + rightSong.title);
-        }
+        boolean isCorrect = answer.equals(rightSong.title);
+
+        // Selection pressed button
+        clickedButton.setBackgroundColor(ContextCompat.getColor(this, R.color.button_pressed));
+
+        new Handler().postDelayed(() -> {
+            int transitionDrawableId = isCorrect ?
+                    R.drawable.button_correct_transition : R.drawable.button_wrong_transition;
+
+            TransitionDrawable transition = (TransitionDrawable) ContextCompat.getDrawable(this, transitionDrawableId);
+            clickedButton.setBackground(transition);
+            transition.startTransition(300);
+
+            if(isCorrect){
+                feedbackText.setText("Correct!");
+            } else {
+                feedbackText.setText("Wrong! The correct answer was: " + rightSong.title);
+            }
+
+        }, 250);
+
+        // Stop the animation
         LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
         vinylAnimation.pauseAnimation();
         animationHandler.removeCallbacks(frameInvalidator);
 
-
         disableAllOptions();
     }
 
+    private void resetButtons(Button btn) {
+        btn.setBackgroundResource(R.color.button);
+        btn.setTextColor(ContextCompat.getColor(this, R.color.text));
+    }
     private void disableAllOptions(){
         btn1.setEnabled(false);
         btn2.setEnabled(false);
@@ -194,6 +214,11 @@ public class GameActivity extends  AppCompatActivity{
     }
 
     private void enableAllOptions(){
+        resetButtons(btn1);
+        resetButtons(btn2);
+        resetButtons(btn3);
+        resetButtons(btn4);
+
         btn1.setEnabled(true);
         btn2.setEnabled(true);
         btn3.setEnabled(true);

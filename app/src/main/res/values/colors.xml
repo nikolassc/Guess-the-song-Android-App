@@ -4,4 +4,9 @@
     <color name="background">#BB86FC</color>
     <color name="button">#FF00AA</color>
     <color name="text">#000000</color>
+
+    <color name="button_pressed">#990066</color> <!-- Selection -->
+    <color name="correct">#4CAF50</color>       <!-- Correct -->
+    <color name="wrong">#F44336</color>         <!-- Wrong -->
+
 </resources>

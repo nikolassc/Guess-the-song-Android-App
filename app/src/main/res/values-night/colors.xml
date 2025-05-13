@@ -2,6 +2,11 @@
 <resources>
     <!-- Dark Mode Colors -->
     <color name="background">#AB47BC</color>
-    <color name="button">#990066</color>
+    <color name="button">#AA00AA</color>
     <color name="text">#FFFFFF</color>
+
+    <color name="button_pressed">#990066</color> <!-- Selection -->
+    <color name="correct">#4CAF50</color>       <!-- Correct -->
+    <color name="wrong">#F44336</color>         <!-- Wrong -->
+
 </resources>
