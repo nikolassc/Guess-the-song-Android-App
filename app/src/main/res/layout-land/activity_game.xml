@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,12 +7,23 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <!-- Left side: animation -->
+    <!-- Left side: settings and vinyl animation centered -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Settings"
+            android:scaleType="centerInside"
+            android:layout_marginBottom="12dp"/>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/vinyl_animation"
@@ -23,7 +33,6 @@
             app:lottie_fileName="vinyl1.json"
             app:lottie_loop="true" />
     </LinearLayout>
-
 
     <!-- Right side: scrollable content -->
     <ScrollView
@@ -77,12 +86,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp" />
 
+            <!-- Smaller "Next Song" button -->
             <Button
                 android:id="@+id/next_button"
                 style="@style/AppButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next Song" />
+                android:text="Next Song"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
