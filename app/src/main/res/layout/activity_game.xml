@@ -1,80 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="24dp"
     android:background="@color/background">
 
-    <!-- Vinyl Animation -->
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/vinyl_animation"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        app:lottie_autoPlay="false"
-        app:lottie_fileName="vinyl1.json"
-        app:lottie_loop="true" />
+    <!-- Settings button always top-left -->
+    <ImageButton
+        android:id="@+id/settings_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="top|start"
+        android:layout_margin="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_settings"
+        android:contentDescription="Settings"
+        android:scaleType="centerInside" />
 
-    <!-- Question Text -->
-    <TextView
-        android:id="@+id/feedback_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Choose a Song"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
-
-    <!-- Options and Spacer -->
+    <!-- Main content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
 
-        <Button
-            android:id="@+id/option1"
-            style="@style/AppButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" />
+        <!-- Vinyl Animation -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/vinyl_animation"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="vinyl1.json"
+            app:lottie_loop="true" />
 
-        <Button
-            android:id="@+id/option2"
-            style="@style/AppButton"
-            android:layout_width="match_parent"
+        <!-- Question Text -->
+        <TextView
+            android:id="@+id/feedback_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Choose a Song"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/option3"
-            style="@style/AppButton"
+        <!-- Options -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
+            <Button
+                android:id="@+id/option1"
+                style="@style/AppButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/option2"
+                style="@style/AppButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/option3"
+                style="@style/AppButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/option4"
+                style="@style/AppButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+
+        <!-- Next Song Button -->
         <Button
-            android:id="@+id/option4"
+            android:id="@+id/next_button"
             style="@style/AppButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" />
+            android:text="Next Song"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp" />
 
     </LinearLayout>
-
-    <!-- Next Song Button -->
-    <Button
-        android:id="@+id/next_button"
-        style="@style/AppButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next Song"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="8dp" />
-
-</LinearLayout>
+</FrameLayout>

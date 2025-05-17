@@ -16,5 +16,10 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
 </resources>
 

@@ -1,13 +1,22 @@
 package com.example.gsong;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -36,6 +45,8 @@ public class GameActivity extends  AppCompatActivity{
     private int currentQuestionIndex = 0;
     private String selectedAnswer = null;
     private String currentVinyl = null;
+    private float currentVolume = 1.0f; // Default 100%
+
 
     //Animations of disks array
     private final String[] vinylFiles = {
@@ -60,6 +71,10 @@ public class GameActivity extends  AppCompatActivity{
          btn3 = findViewById(R.id.option3);
          btn4 = findViewById(R.id.option4);
          nextBtn = findViewById(R.id.next_button);
+
+        // Settings button
+        ImageButton settingsBtn = findViewById(R.id.settings_button);
+        settingsBtn.setOnClickListener(v -> showSettingsDialog());
 
         //Load all the songs
         SongDao songDao = SongDatabase.getInstance(this).songDao();
@@ -118,13 +133,53 @@ public class GameActivity extends  AppCompatActivity{
 
     }
 
+    //Show the menu settings
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.game_settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_restart) {
+            restartGame();
+            return true;
+        } else if (id == R.id.action_volume) {
+            showVolumeDialog();
+            return true;
+        } else if (id == R.id.action_main_menu) {
+            goToMainMenu();
+            return true;
+        } else if (id == R.id.action_exit) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
     private void reloadSameSong(int seek){
         //Make the sound
         int songID = getResources().getIdentifier(rightSong.fileName, "raw", getPackageName());
         if(songID != 0){
             mediaPlayer = MediaPlayer.create(this, songID);
             mediaPlayer.seekTo(seek);
+            mediaPlayer.setVolume(currentVolume, currentVolume);
             mediaPlayer.start();
+
+            mediaPlayer.setOnCompletionListener(mp -> {
+                LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
+                if (vinylAnimation != null) {
+                    vinylAnimation.cancelAnimation();
+                    vinylAnimation.setProgress(0f);
+                }
+            });
         }
 
         List<String> options = new ArrayList<>();
@@ -151,10 +206,17 @@ public class GameActivity extends  AppCompatActivity{
 
         // Vinyl animation
         LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
-        vinylAnimation.setAnimation(currentVinyl);
-        vinylAnimation.setRepeatCount(LottieDrawable.INFINITE);
-        vinylAnimation.setRepeatMode(LottieDrawable.RESTART);
-        vinylAnimation.playAnimation();
+        if (vinylAnimation != null) {
+            vinylAnimation.cancelAnimation();
+            vinylAnimation.setProgress(0f);
+            vinylAnimation.setAnimation(currentVinyl);
+            vinylAnimation.setRepeatCount(LottieDrawable.INFINITE);
+            vinylAnimation.setRepeatMode(LottieDrawable.RESTART);
+            vinylAnimation.invalidate();
+            if (!vinylAnimation.isAnimating()) {
+                vinylAnimation.playAnimation();
+            }
+        }
     }
 
     //Save the current state
@@ -184,7 +246,10 @@ public class GameActivity extends  AppCompatActivity{
         }
 
         LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
-        vinylAnimation.pauseAnimation();;
+        if (vinylAnimation != null) {
+            vinylAnimation.cancelAnimation();
+            vinylAnimation.setProgress(0f);
+        }
 
         // Filter songs not yet played
         List<Song> remainingSongs = new ArrayList<>(allSongs);
@@ -227,9 +292,18 @@ public class GameActivity extends  AppCompatActivity{
 
         // Play audio
         int songId = getResources().getIdentifier(rightSong.fileName, "raw", getPackageName());
+
         if(songId != 0){
             mediaPlayer = MediaPlayer.create(this, songId);
+            mediaPlayer.setVolume(currentVolume, currentVolume);
             mediaPlayer.start();
+
+            mediaPlayer.setOnCompletionListener(mp -> {
+                if (vinylAnimation != null) {
+                    vinylAnimation.cancelAnimation();
+                    vinylAnimation.setProgress(0f);
+                }
+            });
         } else {
             feedbackText.setText("Audio file not found: " + rightSong.fileName);
         }
@@ -239,10 +313,15 @@ public class GameActivity extends  AppCompatActivity{
         currentVinyl = vinylFiles[rand.nextInt(vinylFiles.length)];
 
         // Find the Lottie view and play the animation
-        vinylAnimation.setAnimation(currentVinyl);
-        vinylAnimation.setRepeatCount(LottieDrawable.INFINITE);
-        vinylAnimation.setRepeatMode(LottieDrawable.RESTART);
-        vinylAnimation.playAnimation();
+        if (vinylAnimation != null) {
+            vinylAnimation.setAnimation(currentVinyl);
+            vinylAnimation.setRepeatCount(LottieDrawable.INFINITE);
+            vinylAnimation.setRepeatMode(LottieDrawable.RESTART);
+            vinylAnimation.invalidate();
+            if (!vinylAnimation.isAnimating()) {
+                vinylAnimation.playAnimation();
+            }
+        }
     }
 
     private void checkAnswer(String answer, Button clickedButton) {
@@ -296,7 +375,92 @@ public class GameActivity extends  AppCompatActivity{
         vinylAnimation.pauseAnimation();
 
     }
+    private void showSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+        View dialogView = getLayoutInflater().inflate(R.layout.game_settings_dialog, null);
+        builder.setView(dialogView);
 
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.dialog_background));
+        dialog.show();
+
+        SeekBar volumeSeekBar = dialogView.findViewById(R.id.volume_seekbar);
+        volumeSeekBar.setMax(100);
+        volumeSeekBar.setProgress((int)(currentVolume * 100));
+
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float volume = progress / 100f;
+                currentVolume = volume;
+                if (mediaPlayer != null) {
+                    mediaPlayer.setVolume(currentVolume, currentVolume);
+                }
+            }
+
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        dialogView.findViewById(R.id.btn_restart).setOnClickListener(v -> {
+            dialog.dismiss();
+            restartGame();
+        });
+
+        dialogView.findViewById(R.id.btn_home).setOnClickListener(v -> {
+            dialog.dismiss();
+            goToMainMenu();
+        });
+
+        dialogView.findViewById(R.id.btn_exit).setOnClickListener(v -> {
+            dialog.dismiss();
+            finishAffinity();
+        });
+    }
+
+
+    private void restartGame() {
+        playedSongs.clear();
+        currentQuestionIndex = 0;
+        selectedAnswer = null;
+        feedbackText.setText("Choose a Song");
+        enableAllOptions();
+        loadNextSong();
+    }
+
+    private void showVolumeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Adjust Volume");
+
+        final SeekBar volumeSeekBar = new SeekBar(this);
+        volumeSeekBar.setMax(100);
+
+        // Default at 100% volume
+        volumeSeekBar.setProgress(100);
+
+        builder.setView(volumeSeekBar);
+
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float volume = progress / 100f;
+                if (mediaPlayer != null) {
+                    mediaPlayer.setVolume(volume, volume);
+                }
+            }
+
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        builder.setNegativeButton("Close", null);
+        builder.show();
+    }
+
+    private void goToMainMenu() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
 
 
     private void resetButtons(Button btn) {
@@ -332,7 +496,8 @@ public class GameActivity extends  AppCompatActivity{
 
         LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
         if (vinylAnimation != null) {
-            vinylAnimation.pauseAnimation();
+            vinylAnimation.cancelAnimation();
+            vinylAnimation.setProgress(0f);
         }
     }
 

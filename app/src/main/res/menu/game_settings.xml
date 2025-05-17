@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_restart"
+        android:title="Restart Game"
+         />
+
+    <item
+        android:id="@+id/action_volume"
+        android:title="Adjust Volume"
+        android:icon="@drawable/ic_volume" />
+
+    <item
+        android:id="@+id/action_main_menu"
+        android:title="Main Menu"
+         />
+
+    <item
+        android:id="@+id/action_exit"
+        android:title="Exit App"
+         />
+
+</menu>
