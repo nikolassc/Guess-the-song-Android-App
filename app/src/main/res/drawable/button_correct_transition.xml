@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <transition xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/button_pressed" />
-    <item android:drawable="@color/correct" />
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/button_pressed" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/correct" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
 </transition>

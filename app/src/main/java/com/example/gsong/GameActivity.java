@@ -17,13 +17,12 @@ import com.example.gsong.data.SongDao;
 import com.example.gsong.data.SongDatabase;
 import com.example.gsong.models.Song;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-
 
 
 public class GameActivity extends  AppCompatActivity{
@@ -34,19 +33,9 @@ public class GameActivity extends  AppCompatActivity{
     private List<Song> playedSongs = new ArrayList<>();
     private Button btn1, btn2, btn3, btn4, nextBtn;
 
-    private final Handler animationHandler = new Handler();
-    private final Runnable frameInvalidator = new Runnable() {
-        @Override
-        public void run() {
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
-                if (vinylAnimation != null) {
-                    vinylAnimation.invalidate(); // Force redraw
-                }
-                animationHandler.postDelayed(this, 10); // Keep refreshing every 100ms
-            }
-        }
-    };
+    private int currentQuestionIndex = 0;
+    private String selectedAnswer = null;
+    private String currentVinyl = null;
 
     //Animations of disks array
     private final String[] vinylFiles = {
@@ -56,6 +45,7 @@ public class GameActivity extends  AppCompatActivity{
             "vinyl4.json",
             "vinyl5.json"
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstansedState){
@@ -75,6 +65,41 @@ public class GameActivity extends  AppCompatActivity{
         SongDao songDao = SongDatabase.getInstance(this).songDao();
         allSongs = songDao.getAllSongs();
 
+        //Saved instance after the rotate
+        int seekPosition = 0;
+        if (savedInstansedState != null) {
+            currentQuestionIndex = savedInstansedState.getInt("currentQuestionIndex", 0);
+            selectedAnswer = savedInstansedState.getString("selectedAnswer");
+            seekPosition = savedInstansedState.getInt("songPosition", 0);
+            currentVinyl = savedInstansedState.getString("currentVinyl");
+
+            Serializable played = savedInstansedState.getSerializable("playedSongs");
+            if (played instanceof ArrayList<?>) {
+                ArrayList<?> rawList = (ArrayList<?>) played;
+                if (!rawList.isEmpty() && rawList.get(0) instanceof Song) {
+                    playedSongs = (ArrayList<Song>) rawList;
+                } else if (rawList.isEmpty()) {
+                    playedSongs = new ArrayList<>();
+                }
+            }
+
+            Serializable song = savedInstansedState.getSerializable("rightSong");
+            if (song instanceof Song) {
+                rightSong = (Song) song;
+            }
+
+            if (rightSong != null && !playedSongs.isEmpty()) {
+                feedbackText.setText("Choose a Song");
+                reloadSameSong(seekPosition);
+            } else {
+                // fallback
+                playedSongs = new ArrayList<>();
+                loadNextSong();
+            }
+        } else {
+            loadNextSong();
+        }
+
         //Listener for every button
         View.OnClickListener listener = v -> {
             Button clicked = (Button) v;
@@ -91,10 +116,65 @@ public class GameActivity extends  AppCompatActivity{
             loadNextSong();
         });
 
-        //Initial Load
-        loadNextSong();
     }
 
+    private void reloadSameSong(int seek){
+        //Make the sound
+        int songID = getResources().getIdentifier(rightSong.fileName, "raw", getPackageName());
+        if(songID != 0){
+            mediaPlayer = MediaPlayer.create(this, songID);
+            mediaPlayer.seekTo(seek);
+            mediaPlayer.start();
+        }
+
+        List<String> options = new ArrayList<>();
+        options.add(rightSong.title);
+
+        List<Song> wrongOptionsPool = new ArrayList<>(allSongs);
+        wrongOptionsPool.remove(rightSong);
+        Collections.shuffle(wrongOptionsPool);
+        for (int i = 0; i < 3 && i < wrongOptionsPool.size(); i++) {
+            options.add(wrongOptionsPool.get(i).title);
+        }
+
+        Collections.shuffle(options);
+        btn1.setText(options.get(0));
+        btn2.setText(options.get(1));
+        btn3.setText(options.get(2));
+        btn4.setText(options.get(3));
+
+        enableAllOptions();
+
+        if(currentVinyl == null){
+            currentVinyl = vinylFiles[new Random().nextInt(vinylFiles.length)];
+        }
+
+        // Vinyl animation
+        LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
+        vinylAnimation.setAnimation(currentVinyl);
+        vinylAnimation.setRepeatCount(LottieDrawable.INFINITE);
+        vinylAnimation.setRepeatMode(LottieDrawable.RESTART);
+        vinylAnimation.playAnimation();
+    }
+
+    //Save the current state
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentQuestionIndex", currentQuestionIndex);
+        outState.putString("selectedAnswer", selectedAnswer);
+        outState.putSerializable("playedSongs", new ArrayList<>(playedSongs));
+        outState.putSerializable("rightSong", (Serializable) rightSong);
+        outState.putString("currentVinyl", currentVinyl);
+
+        if(mediaPlayer != null){
+            try{
+                outState.putInt("songPosition", mediaPlayer.getCurrentPosition());
+            }catch (IllegalStateException e){
+                outState.putInt("songPosition", 0);
+            }
+        }
+    }
     private void loadNextSong(){
         // Stop previous song
         if(mediaPlayer != null){
@@ -102,6 +182,9 @@ public class GameActivity extends  AppCompatActivity{
             mediaPlayer.release();
             mediaPlayer = null;
         }
+
+        LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
+        vinylAnimation.pauseAnimation();;
 
         // Filter songs not yet played
         List<Song> remainingSongs = new ArrayList<>(allSongs);
@@ -140,10 +223,7 @@ public class GameActivity extends  AppCompatActivity{
         btn3.setText(options.get(2));
         btn4.setText(options.get(3));
 
-        btn1.setEnabled(true);
-        btn2.setEnabled(true);
-        btn3.setEnabled(true);
-        btn4.setEnabled(true);
+       enableAllOptions();
 
         // Play audio
         int songId = getResources().getIdentifier(rightSong.fileName, "raw", getPackageName());
@@ -156,54 +236,71 @@ public class GameActivity extends  AppCompatActivity{
 
         // Randomly select one of the vinyl animations
         Random rand = new Random();
-        String selectedVinyl = vinylFiles[rand.nextInt(vinylFiles.length)];
+        currentVinyl = vinylFiles[rand.nextInt(vinylFiles.length)];
 
         // Find the Lottie view and play the animation
-        LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
-        vinylAnimation.setAnimation(selectedVinyl);
+        vinylAnimation.setAnimation(currentVinyl);
         vinylAnimation.setRepeatCount(LottieDrawable.INFINITE);
         vinylAnimation.setRepeatMode(LottieDrawable.RESTART);
         vinylAnimation.playAnimation();
-        animationHandler.post(frameInvalidator);
     }
 
     private void checkAnswer(String answer, Button clickedButton) {
-        if(mediaPlayer != null && mediaPlayer.isPlaying()){
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             mediaPlayer.seekTo(0);
         }
 
         boolean isCorrect = answer.equals(rightSong.title);
 
-        // Selection pressed button
-        clickedButton.setBackgroundColor(ContextCompat.getColor(this, R.color.button_pressed));
+        // Disable all buttons immediately
+        disableAllOptions();
+
+        // Feedback text (can adjust here if needed)
+        feedbackText.setText("");
+
+        // Show pressed state (optional visual feedback)
+        clickedButton.setBackgroundResource(R.drawable.button_background);
 
         new Handler().postDelayed(() -> {
-            int transitionDrawableId = isCorrect ?
-                    R.drawable.button_correct_transition : R.drawable.button_wrong_transition;
-
-            TransitionDrawable transition = (TransitionDrawable) ContextCompat.getDrawable(this, transitionDrawableId);
-            clickedButton.setBackground(transition);
-            transition.startTransition(300);
-
-            if(isCorrect){
-                feedbackText.setText("Correct!");
+            if (isCorrect) {
+                // Correct answer transition
+                TransitionDrawable transition = (TransitionDrawable) ContextCompat.getDrawable(this, R.drawable.button_correct_transition);
+                clickedButton.setBackground(transition);
+                transition.startTransition(400);
             } else {
-                feedbackText.setText("Wrong! The correct answer was: " + rightSong.title);
+                // Wrong answer transition
+                TransitionDrawable wrongTransition = (TransitionDrawable) ContextCompat.getDrawable(this, R.drawable.button_wrong_transition);
+                clickedButton.setBackground(wrongTransition);
+                wrongTransition.startTransition(400);
+
+                // Highlight the correct answer
+                for (Button btn : new Button[]{btn1, btn2, btn3, btn4}) {
+                    if (btn.getText().toString().equals(rightSong.title)) {
+                        new Handler().postDelayed(() -> {
+                            TransitionDrawable correctTransition = (TransitionDrawable)
+                                    ContextCompat.getDrawable(this, R.drawable.button_correct_transition);
+                            btn.setBackground(correctTransition);
+                            correctTransition.startTransition(400);
+                        }, 600); // delay after wrong shown
+                        break;
+                    }
+                }
+
             }
 
         }, 250);
 
-        // Stop the animation
+        // Stop animation
         LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
         vinylAnimation.pauseAnimation();
-        animationHandler.removeCallbacks(frameInvalidator);
 
-        disableAllOptions();
     }
 
+
+
     private void resetButtons(Button btn) {
-        btn.setBackgroundResource(R.color.button);
+        btn.setBackgroundResource(R.drawable.button_background);
         btn.setTextColor(ContextCompat.getColor(this, R.color.text));
     }
     private void disableAllOptions(){
@@ -230,6 +327,12 @@ public class GameActivity extends  AppCompatActivity{
         super.onDestroy();
         if (mediaPlayer != null) {
             mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
+        LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
+        if (vinylAnimation != null) {
+            vinylAnimation.pauseAnimation();
         }
     }
 

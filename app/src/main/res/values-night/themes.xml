@@ -7,11 +7,12 @@
     </style>
 
     <style name="AppButton" parent="Widget.AppCompat.Button">
-        <item name="android:background">@color/button</item>
+        <item name="android:background">@drawable/button_background</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:padding">12dp</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:elevation">4dp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
+
 </resources>
