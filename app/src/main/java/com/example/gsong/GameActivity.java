@@ -2,6 +2,8 @@ package com.example.gsong;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -47,6 +50,9 @@ public class GameActivity extends  AppCompatActivity{
     private String currentVinyl = null;
     private float currentVolume = 1.0f; // Default 100%
 
+    private final Handler transitionHandler = new Handler();
+    private Runnable correctAnswerRunnable;
+
 
     //Animations of disks array
     private final String[] vinylFiles = {
@@ -57,6 +63,16 @@ public class GameActivity extends  AppCompatActivity{
             "vinyl5.json"
     };
 
+    //Life Icons
+    private ImageView[] lifeIcons;
+    private int[] lifeDrawables = {
+            R.drawable.mini_drum,
+            R.drawable.saxophone,
+            R.drawable.violin,
+            R.drawable.el_guitar,
+            R.drawable.guitar
+    };
+    private int selectedLifeDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstansedState){
@@ -64,6 +80,12 @@ public class GameActivity extends  AppCompatActivity{
         setContentView(R.layout.activity_game);
 
         feedbackText = findViewById(R.id.feedback_text);
+
+        lifeIcons = new ImageView[] {
+                findViewById(R.id.life1),
+                findViewById(R.id.life2),
+                findViewById(R.id.life3)
+        };
 
         //connect the buttons with IDs
          btn1 = findViewById(R.id.option1);
@@ -130,7 +152,7 @@ public class GameActivity extends  AppCompatActivity{
             enableAllOptions();
             loadNextSong();
         });
-
+        startNewGame();
     }
 
     //Show the menu settings
@@ -161,8 +183,32 @@ public class GameActivity extends  AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    private void startNewGame(){
+        //Random pick of the life icon
+        Random randIcon = new Random();
+        selectedLifeDrawable = lifeDrawables[randIcon.nextInt(lifeDrawables.length)];
 
+        for(ImageView icon : lifeIcons){
+            icon.setImageResource(selectedLifeDrawable);
+            icon.setColorFilter(null);
+            icon.setVisibility(View.VISIBLE);
+        }
+    }
+    private int lives = 3;
+    private void onWrongAnswer(){
+        lives--;
+        if(lives >= 0 && lives < lifeIcons.length){
+            //makes the icons darker (to show the lost life)
+            int darker = Color.rgb(20, 110, 100);
+            lifeIcons[lives].setColorFilter(darker, PorterDuff.Mode.SRC_IN);
+        }
+        if(lives == 0){
+            feedbackText.setText("Game Over!");
+            disableAllOptions();
+            nextBtn.setEnabled(false);
+        }
 
+    }
 
     private void reloadSameSong(int seek){
         //Make the sound
@@ -217,6 +263,7 @@ public class GameActivity extends  AppCompatActivity{
                 vinylAnimation.playAnimation();
             }
         }
+        transitionHandler.removeCallbacks(correctAnswerRunnable);
     }
 
     //Save the current state
@@ -322,6 +369,7 @@ public class GameActivity extends  AppCompatActivity{
                 vinylAnimation.playAnimation();
             }
         }
+        transitionHandler.removeCallbacks(correctAnswerRunnable);
     }
 
     private void checkAnswer(String answer, Button clickedButton) {
@@ -334,6 +382,9 @@ public class GameActivity extends  AppCompatActivity{
 
         // Disable all buttons immediately
         disableAllOptions();
+
+        //Temporary diasable the next song button
+        nextBtn.setEnabled(false);
 
         // Feedback text (can adjust here if needed)
         feedbackText.setText("");
@@ -353,21 +404,21 @@ public class GameActivity extends  AppCompatActivity{
                 clickedButton.setBackground(wrongTransition);
                 wrongTransition.startTransition(400);
 
-                // Highlight the correct answer
-                for (Button btn : new Button[]{btn1, btn2, btn3, btn4}) {
-                    if (btn.getText().toString().equals(rightSong.title)) {
-                        new Handler().postDelayed(() -> {
+                // Prepare delayed highlight for correct button
+                correctAnswerRunnable = () -> {
+                    for (Button btn : new Button[]{btn1, btn2, btn3, btn4}) {
+                        if (btn.getText().toString().equals(rightSong.title)) {
                             TransitionDrawable correctTransition = (TransitionDrawable)
                                     ContextCompat.getDrawable(this, R.drawable.button_correct_transition);
                             btn.setBackground(correctTransition);
                             correctTransition.startTransition(400);
-                        }, 600); // delay after wrong shown
-                        break;
+                        }
                     }
-                }
-
+                };
+                transitionHandler.postDelayed(correctAnswerRunnable, 600);
+                onWrongAnswer();
             }
-
+            nextBtn.setEnabled(true);
         }, 250);
 
         // Stop animation
@@ -424,6 +475,8 @@ public class GameActivity extends  AppCompatActivity{
         selectedAnswer = null;
         feedbackText.setText("Choose a Song");
         enableAllOptions();
+        lives = 3;
+        startNewGame();
         loadNextSong();
     }
 

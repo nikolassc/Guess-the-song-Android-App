@@ -17,6 +17,39 @@
         android:contentDescription="Settings"
         android:scaleType="centerInside" />
 
+    <!-- Lives (top-right corner) -->
+    <LinearLayout
+        android:id="@+id/lives_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp">
+
+        <ImageView
+            android:id="@+id/life1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/life_placeholder" />
+
+        <ImageView
+            android:id="@+id/life2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/life_placeholder" />
+
+        <ImageView
+            android:id="@+id/life3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/life_placeholder" />
+    </LinearLayout>
+
+
     <!-- Main content -->
     <LinearLayout
         android:layout_width="match_parent"

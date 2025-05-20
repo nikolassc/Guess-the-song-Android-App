@@ -1,66 +1,82 @@
 [
   {
     "title": "(I Can't Get No) Satisfaction - The Rolling Stones",
-    "fileName": "satisfaction"
+    "fileName": "satisfaction",
+    "language": "en"
   },
   {
     "title": "Let It be - The Beatles",
-    "fileName": "let_it_be"
+    "fileName": "let_it_be",
+    "language": "en"
   },
   {
     "title": "Και τι ζητάω - Σαββόπουλος και Μαχαιρίτσας",
-    "fileName": "kai_ti_zitaw"
+    "fileName": "kai_ti_zitaw",
+    "language": "gr"
   },
   {
     "title": "Billie Jean - Michael Jackson",
-    "fileName": "billie_jean"
+    "fileName": "billie_jean",
+    "language": "en"
   },
   {
     "title": "Like a Prayer - Madonna",
-    "fileName": "like_a_prayer"
+    "fileName": "like_a_prayer",
+    "language": "en"
   },
   {
     "title": "Τα λαδάδικα - Δημήτρης Μητροπάνος",
-    "fileName": "ladadika"
+    "fileName": "ladadika",
+    "language": "gr"
   },
   {
     "title": "Fortunate Son - Creedence Clearwater Revival",
-    "fileName": "fortunate_son"
+    "fileName": "fortunate_son",
+    "language": "en"
   },
   {
     "title": "Creep - Radiohead",
-    "fileName": "creep"
+    "fileName": "creep",
+    "language": "en"
   },
   {
     "title": "What A Wonderful World - Louis Armstrong",
-    "fileName": "wonderful_world"
+    "fileName": "wonderful_world",
+    "language": "en"
   },
   {
     "title": "My Way - Frank Sinatra",
-    "fileName": "my_way"
+    "fileName": "my_way",
+    "language": "en"
   },
   {
     "title": "Που 'σαι Θανάση - Γιώργος Ζαμπέτας",
-    "fileName": "pou_se_thanasi"
+    "fileName": "pou_se_thanasi",
+    "language": "gr"
   },
   {
     "title": "Αχ Ελλάδα - Νίκος Παπάζογλου",
-    "fileName": "ax_ellada"
+    "fileName": "ax_ellada",
+    "language": "gr"
   },
   {
     "title": "Gangsta's Paradise - Coolio",
-    "fileName": "gangsta_paradise"
+    "fileName": "gangsta_paradise",
+    "language": "en"
   },
   {
     "title": "Σαν Σταρ Του Σινεμά - Νίκος Ζιώγαλας",
-    "fileName": "star_tou_cinema"
+    "fileName": "star_tou_cinema",
+    "language": "gr"
   },
   {
     "title": "Hotel California - Eagles",
-    "fileName": "hotel_california"
+    "fileName": "hotel_california",
+    "language": "en"
   },
   {
     "title": "House Of The Rising Sun - The Animals",
-    "fileName": "house_of_the_rising_sun"
+    "fileName": "house_of_the_rising_sun",
+    "language": "en"
   }
 ]
