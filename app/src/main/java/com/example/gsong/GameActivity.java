@@ -70,7 +70,10 @@ public class GameActivity extends  AppCompatActivity{
             R.drawable.saxophone,
             R.drawable.violin,
             R.drawable.el_guitar,
-            R.drawable.guitar
+            R.drawable.guitar,
+            R.drawable.trumpet,
+            R.drawable.drums,
+            R.drawable.piano
     };
     private int selectedLifeDrawable;
 
