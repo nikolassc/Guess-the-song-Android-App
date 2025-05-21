@@ -20,9 +20,12 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
+
+
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonStartGame, buttonAddSongs, buttonStats;
+    Button buttonStartGame, buttonAddSongs, buttonStats, buttonExit ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         buttonStartGame = findViewById(R.id.button_start_game);
         buttonAddSongs = findViewById(R.id.button_add_songs);
         buttonStats = findViewById(R.id.button_stats);
+        buttonExit = findViewById(R.id.button_exit);
 
         buttonStartGame.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -56,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, StatsActivity.class);
             startActivity(intent);
         });  */
+        buttonExit.setOnClickListener(v -> {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Έξοδος")
+                    .setMessage("Είστε σίγουροι ότι θέλετε να κλείσετε την εφαρμογή;")
+                    .setPositiveButton("Ναι", (dialog, which) -> finishAffinity())
+                    .setNegativeButton("Όχι", null)
+                    .show();
+        });
+
+
+
     }
 
     private void preloadSongsFromJson(Context context) {

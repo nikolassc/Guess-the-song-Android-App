@@ -43,6 +43,14 @@
             android:layout_height="wrap_content"
             android:text="Στατιστικά / Ιστορικό"
             android:padding="16dp" />
+        <Button
+            android:id="@+id/button_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Έξοδος"
+            android:padding="16dp"
+            android:layout_marginTop="24dp" />
+
 
     </LinearLayout>
 
