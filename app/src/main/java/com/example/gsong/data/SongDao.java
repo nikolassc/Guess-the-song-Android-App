@@ -17,9 +17,12 @@ public interface SongDao {
     @Query("SELECT * FROM Song ORDER BY RANDOM() LIMIT 1")
     Song getRandomSong();
 
+    @Query("SELECT * FROM Song WHERE title = :title LIMIT 1")
+    Song getSongByTitle(String title);
+
     @Insert
     void insert(Song song);
+
     @Insert
     void insertAll(Song... songs);
 }
-

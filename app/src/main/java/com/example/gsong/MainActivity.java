@@ -3,7 +3,6 @@ package com.example.gsong;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,25 +21,41 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button buttonStartGame, buttonAddSongs, buttonStats;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Προφόρτωση τραγουδιών από JSON (πχ. assets/songs.json)
         preloadSongsFromJson(this);
 
+        // Toolbar
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Guess the Song");
 
-        Button gameButton = findViewById(R.id.game_button);
-        gameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                startActivity(intent);
-            }
+        // Κουμπιά
+        buttonStartGame = findViewById(R.id.button_start_game);
+        buttonAddSongs = findViewById(R.id.button_add_songs);
+        buttonStats = findViewById(R.id.button_stats);
+
+        buttonStartGame.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            startActivity(intent);
         });
+
+        buttonAddSongs.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddSongActivity.class);
+            startActivity(intent);
+        });
+
+       /* buttonStats.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatsActivity.class);
+            startActivity(intent);
+        });  */
     }
 
     private void preloadSongsFromJson(Context context) {
@@ -76,8 +91,4 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
 }
-
