@@ -59,16 +59,18 @@
         android:padding="24dp">
 
         <!-- Vinyl Animation -->
+
+        <!-- Question Text -->
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/vinyl_animation"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center"
+            android:layout_marginTop="32dp"
             app:lottie_autoPlay="false"
             app:lottie_fileName="vinyl1.json"
             app:lottie_loop="true" />
 
-        <!-- Question Text -->
         <TextView
             android:id="@+id/feedback_text"
             android:layout_width="wrap_content"

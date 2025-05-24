@@ -1,5 +1,6 @@
 package com.example.gsong;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -201,9 +202,14 @@ public class GameActivity extends  AppCompatActivity{
     private void onWrongAnswer(){
         lives--;
         if(lives >= 0 && lives < lifeIcons.length){
-            //makes the icons darker (to show the lost life)
+            //Make the icons darker (to show the lost life)
             int darker = Color.rgb(20, 110, 100);
             lifeIcons[lives].setColorFilter(darker, PorterDuff.Mode.SRC_IN);
+
+            //Fade animation
+            ObjectAnimator fade = ObjectAnimator.ofFloat(lifeIcons[lives], "alpha", 1f, 0.4f);
+            fade.setDuration(300);
+            fade.start();
         }
         if(lives == 0){
             feedbackText.setText("Game Over!");
