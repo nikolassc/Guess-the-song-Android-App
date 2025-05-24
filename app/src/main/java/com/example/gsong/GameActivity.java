@@ -209,6 +209,7 @@ public class GameActivity extends  AppCompatActivity{
             feedbackText.setText("Game Over!");
             disableAllOptions();
             nextBtn.setEnabled(false);
+            showGameOverDialog();
         }
 
     }
@@ -454,6 +455,32 @@ public class GameActivity extends  AppCompatActivity{
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+
+        dialogView.findViewById(R.id.btn_restart).setOnClickListener(v -> {
+            dialog.dismiss();
+            restartGame();
+        });
+
+        dialogView.findViewById(R.id.btn_home).setOnClickListener(v -> {
+            dialog.dismiss();
+            goToMainMenu();
+        });
+
+        dialogView.findViewById(R.id.btn_exit).setOnClickListener(v -> {
+            dialog.dismiss();
+            finishAffinity();
+        });
+    }
+
+    private void showGameOverDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+        View dialogView = getLayoutInflater().inflate(R.layout.game_over_dialog, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.dialog_background));
+        dialog.setCancelable(false);
+        dialog.show();
 
         dialogView.findViewById(R.id.btn_restart).setOnClickListener(v -> {
             dialog.dismiss();
