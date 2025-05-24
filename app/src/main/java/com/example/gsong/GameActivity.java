@@ -3,6 +3,7 @@ package com.example.gsong;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.TransitionDrawable;
@@ -29,8 +30,14 @@ import com.airbnb.lottie.LottieDrawable;
 import com.example.gsong.data.SongDao;
 import com.example.gsong.data.SongDatabase;
 import com.example.gsong.models.Song;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -80,6 +87,15 @@ public class GameActivity extends  AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstansedState){
+        //Load the songs to the database (only the first time the app is opened)
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        if (!prefs.getBoolean("db_reset_done", false)) {
+          SongDao songDao = SongDatabase.getInstance(this).songDao();
+          songDao.clearAll();
+          loadSongsFromJson();
+          prefs.edit().putBoolean("db_reset_done", true).apply(); // if you want to reset the database make the value "false"
+        }
+
         super.onCreate(savedInstansedState);
         setContentView(R.layout.activity_game);
 
@@ -158,6 +174,33 @@ public class GameActivity extends  AppCompatActivity{
         });
         startNewGame();
     }
+
+    private void loadSongsFromJson() {
+        try {
+            // 1. Άνοιγμα αρχείου JSON από assets
+            InputStream is = getAssets().open("songs.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            String json = new String(buffer, StandardCharsets.UTF_8);
+
+            // 2. Κάνουμε parsing σε λίστα Song
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Song>>() {}.getType();
+            List<Song> songs = gson.fromJson(json, listType);
+
+            // 3. Κάνουμε insert στη βάση
+            SongDao songDao = SongDatabase.getInstance(this).songDao();
+            songDao.insertAll(songs.toArray(new Song[0]));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to load songs.json", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     //Show the menu settings
     @Override

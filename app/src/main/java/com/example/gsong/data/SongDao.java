@@ -20,6 +20,9 @@ public interface SongDao {
     @Query("SELECT * FROM Song WHERE title = :title LIMIT 1")
     Song getSongByTitle(String title);
 
+    @Query("DELETE FROM Song")
+    void clearAll();
+
     @Insert
     void insert(Song song);
 

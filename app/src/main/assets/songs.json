@@ -10,7 +10,7 @@
     "language": "en"
   },
   {
-    "title": "Και τι ζητάω - Σαββόπουλος και Μαχαιρίτσας",
+    "title": "Και τι ζηταω - Σαββοπουλος & Μαχαιριτσας",
     "fileName": "kai_ti_zitaw",
     "language": "gr"
   },
@@ -25,7 +25,7 @@
     "language": "en"
   },
   {
-    "title": "Τα λαδάδικα - Δημήτρης Μητροπάνος",
+    "title": "Τα λαδαδικα - Δημητρης Μητροπανος",
     "fileName": "ladadika",
     "language": "gr"
   },
@@ -50,12 +50,12 @@
     "language": "en"
   },
   {
-    "title": "Που 'σαι Θανάση - Γιώργος Ζαμπέτας",
+    "title": "Που 'σαι Θαναση - Γιωργος Ζαμπετας",
     "fileName": "pou_se_thanasi",
     "language": "gr"
   },
   {
-    "title": "Αχ Ελλάδα - Νίκος Παπάζογλου",
+    "title": "Αχ Ελλαδα - Νικος Παπαζογλου",
     "fileName": "ax_ellada",
     "language": "gr"
   },
@@ -65,7 +65,7 @@
     "language": "en"
   },
   {
-    "title": "Σαν Σταρ Του Σινεμά - Νίκος Ζιώγαλας",
+    "title": "Σαν Σταρ Του Σινεμα - Νικος Ζιωγαλας",
     "fileName": "star_tou_cinema",
     "language": "gr"
   },
@@ -78,5 +78,100 @@
     "title": "House Of The Rising Sun - The Animals",
     "fileName": "house_of_the_rising_sun",
     "language": "en"
+  },
+  {
+    "title": "Smells Like Teen Spirit - Nirvana",
+    "fileName": "smells_like_teen_spirit",
+    "language": "en"
+  },
+  {
+    "title": "Viva la vida - Coldplay",
+    "fileName": "viva_la_vida",
+    "language": "en"
+  },
+  {
+    "title": "No Woman No Cry - Bob Marley",
+    "fileName": "no_woman_no_cry",
+    "language": "en"
+  },
+  {
+    "title": "Zombie - The Cranberries",
+    "fileName": "zombie",
+    "language": "en"
+  },
+  {
+    "title": "Careless Whisper - George Michael",
+    "fileName": "careless_whisper",
+    "language": "en"
+  },
+  {
+    "title": "Golden Brown - Stranglers",
+    "fileName": "golden_brown",
+    "language": "en"
+  },
+  {
+    "title": "We Will Rock You - Queen",
+    "fileName": "rock_you",
+    "language": "en"
+  },
+  {
+    "title": "Seven Nation Army - The White Stripes",
+    "fileName": "seven_nation_army",
+    "language": "en"
+  },
+  {
+    "title": "I Want It That Way - Backstreet Boys",
+    "fileName": "want_it_that_way",
+    "language": "en"
+  },
+  {
+    "title": "Get Lucky - Daft Punk",
+    "fileName": "get_lucky",
+    "language": "en"
+  },
+  {
+    "title": "American Idiot - Green Day",
+    "fileName": "american_idiot",
+    "language": "en"
+  },
+  {
+    "title": "Στη Ντισκοτεκ - Ημισκουμπρια ft. Ελπιδα",
+    "fileName": "sti_discotek",
+    "language": "gr"
+  },
+  {
+    "title": "Ο ΑΜΛΕΤ ΤΗΣ ΣΕΛΗΝΗΣ - ΧΡΗΣΤΟΣ ΘΗΒΑΙΟΣ",
+    "fileName": "amlet_selinis",
+    "language": "gr"
+  },
+  {
+    "title": "Ριτα Ριτακι - Πανος & Χαρης Κατσιμιχας",
+    "fileName": "rita_ritaki",
+    "language": "gr"
+  },
+  {
+    "title": "Η Φανη - Βασιλης Καζουλλης",
+    "fileName": "fani",
+    "language": "gr"
+  },
+  {
+    "title": "Δε ζηταω πολλα - Κωστης Μαραβεγιας",
+    "fileName": "de_zitao_polla",
+    "language": "gr"
+  },
+  {
+    "title": "Μαλαματενια λογια - Λακης Χαλκιας",
+    "fileName": "malamatenia_logia",
+    "language": "gr"
+  },
+  {
+    "title": "Βυθισμενες Αγκυρες -  Μιλτος Πασχαλιδης",
+    "fileName": "vithismenes_agkires",
+    "language": "gr"
+  },
+  {
+    "title": "Νεοελληνας -  ΤΖΙΜΗΣ ΠΑΝΟΥΣΗΣ",
+    "fileName": "neoellinas",
+    "language": "gr"
   }
 ]
