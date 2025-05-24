@@ -208,7 +208,7 @@ public class GameActivity extends  AppCompatActivity{
 
             //Fade animation
             ObjectAnimator fade = ObjectAnimator.ofFloat(lifeIcons[lives], "alpha", 1f, 0.4f);
-            fade.setDuration(300);
+            fade.setDuration(200);
             fade.start();
         }
         if(lives == 0){
