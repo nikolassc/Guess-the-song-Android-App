@@ -14,6 +14,8 @@ public class Song implements Serializable {
     public String title;
     public String fileName;
 
+    public String language;
+
     // Default constructor (χρειάζεται για Room)
     public Song() {
     }

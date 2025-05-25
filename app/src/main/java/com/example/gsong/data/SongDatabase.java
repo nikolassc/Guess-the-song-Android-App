@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.gsong.models.Song;
 
-@Database(entities = {Song.class}, version = 1)
+@Database(entities = {Song.class}, version = 2)
 public abstract class SongDatabase extends RoomDatabase {
     private static SongDatabase instance;
 

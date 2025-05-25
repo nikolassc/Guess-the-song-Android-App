@@ -308,12 +308,34 @@ public class GameActivity extends  AppCompatActivity{
         List<String> options = new ArrayList<>();
         options.add(rightSong.title);
 
-        List<Song> wrongOptionsPool = new ArrayList<>(allSongs);
-        wrongOptionsPool.remove(rightSong);
-        Collections.shuffle(wrongOptionsPool);
-        for (int i = 0; i < 3 && i < wrongOptionsPool.size(); i++) {
-            options.add(wrongOptionsPool.get(i).title);
+        List<Song> sameLang = new ArrayList<>();
+        List<Song> otherLang = new ArrayList<>();
+
+        for (Song s : allSongs) {
+            if (s.equals(rightSong)) continue;
+            if (s.language.equals(rightSong.language)) {
+                sameLang.add(s);
+            } else {
+                otherLang.add(s);
+            }
         }
+
+        Collections.shuffle(sameLang);
+        Collections.shuffle(otherLang);
+
+        int needed = 3;
+
+// Add as much options from the same language as we can
+        for (int i = 0; i < Math.min(needed, sameLang.size()); i++) {
+            options.add(sameLang.get(i).title);
+        }
+        needed -= Math.min(needed, sameLang.size());
+
+// Fill with other option if needed
+        for (int i = 0; i < Math.min(needed, otherLang.size()); i++) {
+            options.add(otherLang.get(i).title);
+        }
+
 
         if (currentOptions != null && currentOptions.size() == 4) {
             btn1.setText(currentOptions.get(0));
@@ -441,11 +463,32 @@ public class GameActivity extends  AppCompatActivity{
         options.add(rightSong.title);
 
         // Pick 3 wrong songs
-        List<Song> wrongOptionsPool = new ArrayList<>(allSongs);
-        wrongOptionsPool.remove(rightSong);
-        Collections.shuffle(wrongOptionsPool);
-        for (int i = 0; i < 3 && i < wrongOptionsPool.size(); i++) {
-            options.add(wrongOptionsPool.get(i).title);
+        List<Song> sameLang = new ArrayList<>();
+        List<Song> otherLang = new ArrayList<>();
+
+        for (Song s : allSongs) {
+            if (s.equals(rightSong)) continue;
+            if (s.language.equals(rightSong.language)) {
+                sameLang.add(s);
+            } else {
+                otherLang.add(s);
+            }
+        }
+
+        Collections.shuffle(sameLang);
+        Collections.shuffle(otherLang);
+
+        int needed = 3;
+
+// Add as much options from the same language as we can
+        for (int i = 0; i < Math.min(needed, sameLang.size()); i++) {
+            options.add(sameLang.get(i).title);
+        }
+        needed -= Math.min(needed, sameLang.size());
+
+// Fill with other option if needed
+        for (int i = 0; i < Math.min(needed, otherLang.size()); i++) {
+            options.add(otherLang.get(i).title);
         }
 
         Collections.shuffle(options);
