@@ -58,6 +58,10 @@ public class GameActivity extends  AppCompatActivity{
     private String currentVinyl = null;
     private float currentVolume = 1.0f; // Default 100%
 
+    private boolean answered = false;
+
+    private List<String> currentOptions;
+
     private final Handler transitionHandler = new Handler();
     private Runnable correctAnswerRunnable;
 
@@ -129,6 +133,12 @@ public class GameActivity extends  AppCompatActivity{
             selectedAnswer = savedInstansedState.getString("selectedAnswer");
             seekPosition = savedInstansedState.getInt("songPosition", 0);
             currentVinyl = savedInstansedState.getString("currentVinyl");
+            lives = savedInstansedState.getInt("lives", 3);
+            selectedLifeDrawable = savedInstansedState.getInt("selectedLifeDrawable", R.drawable.life_placeholder);
+            answered = savedInstansedState.getBoolean("answered", false);
+            selectedAnswer = savedInstansedState.getString("selectedAnswer", null);
+            currentOptions = savedInstansedState.getStringArrayList("currentOptions");
+
 
             Serializable played = savedInstansedState.getSerializable("playedSongs");
             if (played instanceof ArrayList<?>) {
@@ -145,6 +155,17 @@ public class GameActivity extends  AppCompatActivity{
                 rightSong = (Song) song;
             }
 
+            for (int i=0; i<lifeIcons.length; i++){
+                lifeIcons[i].setImageResource(selectedLifeDrawable);
+                if (i>= lives){
+                    lifeIcons[i].setAlpha(0.4f);
+                    lifeIcons[i].setColorFilter(Color.rgb(20, 110, 100), PorterDuff.Mode.SRC_IN);
+                }else{
+                    lifeIcons[i].setAlpha(1f);
+                    lifeIcons[i].setColorFilter(null);
+                }
+            }
+
             if (rightSong != null && !playedSongs.isEmpty()) {
                 feedbackText.setText("Choose a Song");
                 reloadSameSong(seekPosition);
@@ -155,6 +176,7 @@ public class GameActivity extends  AppCompatActivity{
             }
         } else {
             loadNextSong();
+            startNewGame();
         }
 
         //Listener for every button
@@ -172,7 +194,6 @@ public class GameActivity extends  AppCompatActivity{
             enableAllOptions();
             loadNextSong();
         });
-        startNewGame();
     }
 
     private void loadSongsFromJson() {
@@ -237,6 +258,7 @@ public class GameActivity extends  AppCompatActivity{
 
         for(ImageView icon : lifeIcons){
             icon.setImageResource(selectedLifeDrawable);
+            icon.setAlpha(1f);
             icon.setColorFilter(null);
             icon.setVisibility(View.VISIBLE);
         }
@@ -270,7 +292,9 @@ public class GameActivity extends  AppCompatActivity{
             mediaPlayer = MediaPlayer.create(this, songID);
             mediaPlayer.seekTo(seek);
             mediaPlayer.setVolume(currentVolume, currentVolume);
-            mediaPlayer.start();
+            if (!answered) {
+                mediaPlayer.start();
+            }
 
             mediaPlayer.setOnCompletionListener(mp -> {
                 LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
@@ -291,17 +315,50 @@ public class GameActivity extends  AppCompatActivity{
             options.add(wrongOptionsPool.get(i).title);
         }
 
-        Collections.shuffle(options);
-        btn1.setText(options.get(0));
-        btn2.setText(options.get(1));
-        btn3.setText(options.get(2));
-        btn4.setText(options.get(3));
+        if (currentOptions != null && currentOptions.size() == 4) {
+            btn1.setText(currentOptions.get(0));
+            btn2.setText(currentOptions.get(1));
+            btn3.setText(currentOptions.get(2));
+            btn4.setText(currentOptions.get(3));
+        } else {
+            Collections.shuffle(options);
+            currentOptions = new ArrayList<>(options); //saves the sequence of the buttons
+            btn1.setText(currentOptions.get(0));
+            btn2.setText(currentOptions.get(1));
+            btn3.setText(currentOptions.get(2));
+            btn4.setText(currentOptions.get(3));
+        }
+
 
         enableAllOptions();
 
         if(currentVinyl == null){
             currentVinyl = vinylFiles[new Random().nextInt(vinylFiles.length)];
         }
+
+        if (answered && selectedAnswer != null) {
+            disableAllOptions();
+
+            for (Button btn : new Button[]{btn1, btn2, btn3, btn4}) {
+                String btnText = btn.getText().toString();
+
+                if (btnText.equals(rightSong.title)) {
+                    TransitionDrawable correctTransition = (TransitionDrawable)
+                            ContextCompat.getDrawable(this, R.drawable.button_correct_transition);
+                    btn.setBackground(correctTransition);
+                    correctTransition.startTransition(400);
+                } else if (btnText.equals(selectedAnswer)) {
+                    TransitionDrawable wrongTransition = (TransitionDrawable)
+                            ContextCompat.getDrawable(this, R.drawable.button_wrong_transition);
+                    btn.setBackground(wrongTransition);
+                    wrongTransition.startTransition(400);
+                }
+            }
+
+            nextBtn.setEnabled(true);
+        }
+
+
 
         // Vinyl animation
         LottieAnimationView vinylAnimation = findViewById(R.id.vinyl_animation);
@@ -328,6 +385,11 @@ public class GameActivity extends  AppCompatActivity{
         outState.putSerializable("playedSongs", new ArrayList<>(playedSongs));
         outState.putSerializable("rightSong", (Serializable) rightSong);
         outState.putString("currentVinyl", currentVinyl);
+        outState.putInt("lives", lives);
+        outState.putInt("selectedLifeDrawable", selectedLifeDrawable);
+        outState.putBoolean("answered", answered);
+        outState.putString("selectedAnswer", selectedAnswer);
+        outState.putStringArrayList("currentOptions", new ArrayList<>(currentOptions));
 
         if(mediaPlayer != null){
             try{
@@ -336,6 +398,12 @@ public class GameActivity extends  AppCompatActivity{
                 outState.putInt("songPosition", 0);
             }
         }
+
+        outState.putSerializable("rightSong", rightSong);
+        if (mediaPlayer != null) {
+            outState.putInt("songPosition", mediaPlayer.getCurrentPosition());
+        }
+
     }
     private void loadNextSong(){
         // Stop previous song
@@ -382,13 +450,20 @@ public class GameActivity extends  AppCompatActivity{
 
         Collections.shuffle(options);
 
-        // Update UI
-        btn1.setText(options.get(0));
-        btn2.setText(options.get(1));
-        btn3.setText(options.get(2));
-        btn4.setText(options.get(3));
+        // Reset the prev answer
+        answered = false;
+        selectedAnswer = null;
 
-       enableAllOptions();
+        // Update UI
+        currentOptions = new ArrayList<>(options); // save the sequence of the option buttons
+
+        btn1.setText(currentOptions.get(0));
+        btn2.setText(currentOptions.get(1));
+        btn3.setText(currentOptions.get(2));
+        btn4.setText(currentOptions.get(3));
+
+
+        enableAllOptions();
 
         // Play audio
         int songId = getResources().getIdentifier(rightSong.fileName, "raw", getPackageName());
@@ -432,6 +507,8 @@ public class GameActivity extends  AppCompatActivity{
         }
 
         boolean isCorrect = answer.equals(rightSong.title);
+        answered = true;
+        selectedAnswer = answer;
 
         // Disable all buttons immediately
         disableAllOptions();
