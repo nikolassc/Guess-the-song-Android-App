@@ -4,6 +4,9 @@
         <item name="android:windowBackground">@color/background</item>
         <item name="colorPrimary">@color/background</item>
         <item name="colorAccent">@color/button</item>
+        <item name="colorOnBackground">@color/text</item>
+        <item name="colorBackgroundFloating">@color/background</item>
+
     </style>
 
     <style name="AppButton" parent="Widget.AppCompat.Button">
@@ -14,5 +17,11 @@
         <item name="android:elevation">4dp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
+
+    <style name="CustomDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="android:background">?attr/colorBackgroundFloating</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+    </style>
+
 
 </resources>

@@ -4,6 +4,8 @@
         <item name="android:windowBackground">@color/background</item>
         <item name="colorPrimary">@color/background</item>
         <item name="colorAccent">@color/button</item>
+        <item name="colorOnBackground">@color/text</item>
+        <item name="colorBackgroundFloating">@color/background</item>
     </style>
 
 
@@ -19,7 +21,6 @@
     <style name="CustomDialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:background">@android:color/transparent</item>
     </style>
-
 
 </resources>
 

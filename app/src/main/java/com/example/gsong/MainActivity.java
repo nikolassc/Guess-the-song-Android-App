@@ -3,7 +3,10 @@ package com.example.gsong;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -25,7 +28,7 @@ import androidx.appcompat.app.AlertDialog;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonStartGame, buttonAddSongs, buttonStats, buttonExit ;
+    Button buttonStartGame, buttonHowToPlay, buttonStats, buttonExit ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Κουμπιά
         buttonStartGame = findViewById(R.id.button_start_game);
-        buttonAddSongs = findViewById(R.id.button_add_songs);
+        buttonHowToPlay = findViewById(R.id.button_how_to_play);
         buttonStats = findViewById(R.id.button_stats);
         buttonExit = findViewById(R.id.button_exit);
 
@@ -51,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        buttonAddSongs.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddSongActivity.class);
-            startActivity(intent);
-        });
+        Button howToPlayButton = findViewById(R.id.button_how_to_play);
+        howToPlayButton.setOnClickListener(v -> showHowToPlayDialog());
+
+
 
        /* buttonStats.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, StatsActivity.class);
@@ -62,15 +65,27 @@ public class MainActivity extends AppCompatActivity {
         });  */
         buttonExit.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Έξοδος")
-                    .setMessage("Είστε σίγουροι ότι θέλετε να κλείσετε την εφαρμογή;")
-                    .setPositiveButton("Ναι", (dialog, which) -> finishAffinity())
-                    .setNegativeButton("Όχι", null)
+                    .setTitle("Exit")
+                    .setMessage("Are you sure you want to close the app")
+                    .setPositiveButton("Yes", (dialog, which) -> finishAffinity())
+                    .setNegativeButton("No", null)
                     .show();
         });
 
 
 
+    }
+
+    private void showHowToPlayDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+        View dialogView = getLayoutInflater().inflate(R.layout.how_to_play_dialog, null);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        TextView closeBtn = dialogView.findViewById(R.id.btn_close_dialog);
+        closeBtn.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void preloadSongsFromJson(Context context) {

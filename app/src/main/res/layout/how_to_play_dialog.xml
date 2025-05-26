@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="?attr/colorBackgroundFloating"
+    android:layout_gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/how_to_play_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How to Play"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnBackground"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/how_to_play_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🎧 Listen to the music and choose the correct song title.\n\n✔ You have 3 lives.\n❌ Each wrong answer costs one life.\n⏭ You can skip up to 3 songs using the 'Next Song' button.\n\n🎯 Guess correctly and move on!\n🎉 Good luck!"
+        android:textColor="?attr/colorOnBackground"
+        android:textSize="16sp"
+        android:lineSpacingExtra="4dp" />
+
+    <!-- Custom "Got It!" button at bottom right -->
+    <TextView
+        android:id="@+id/btn_close_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GOT IT!"
+        android:textColor="?attr/colorOnBackground"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_gravity="end"
+        android:paddingTop="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+</LinearLayout>

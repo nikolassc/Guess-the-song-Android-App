@@ -25,15 +25,15 @@
             android:id="@+id/button_start_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Έναρξη Παιχνιδιού"
+            android:text="Start Game"
             android:padding="16dp"
             android:layout_marginBottom="24dp" />
 
         <Button
-            android:id="@+id/button_add_songs"
+            android:id="@+id/button_how_to_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Βάλε Νέα Τραγούδια"
+            android:text="How To Play"
             android:padding="16dp"
             android:layout_marginBottom="24dp" />
 
@@ -41,17 +41,16 @@
             android:id="@+id/button_stats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Στατιστικά / Ιστορικό"
+            android:text="Statistics"
             android:padding="16dp" />
+
         <Button
             android:id="@+id/button_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Έξοδος"
+            android:text="Exit"
             android:padding="16dp"
             android:layout_marginTop="24dp" />
-
-
     </LinearLayout>
 
 </LinearLayout>
