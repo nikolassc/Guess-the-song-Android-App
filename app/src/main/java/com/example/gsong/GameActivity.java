@@ -57,8 +57,10 @@ public class GameActivity extends  AppCompatActivity{
     private String selectedAnswer = null;
     private String currentVinyl = null;
     private float currentVolume = 1.0f; // Default 100%
-
     private boolean answered = false;
+
+    private int skipsRemaining = 3;
+    private Toast skipToast;
 
     private List<String> currentOptions;
 
@@ -138,6 +140,8 @@ public class GameActivity extends  AppCompatActivity{
             answered = savedInstansedState.getBoolean("answered", false);
             selectedAnswer = savedInstansedState.getString("selectedAnswer", null);
             currentOptions = savedInstansedState.getStringArrayList("currentOptions");
+            skipsRemaining = savedInstansedState != null ? savedInstansedState.getInt("skipsRemaining", 3) : 3;
+
 
 
             Serializable played = savedInstansedState.getSerializable("playedSongs");
@@ -190,10 +194,49 @@ public class GameActivity extends  AppCompatActivity{
         btn4.setOnClickListener(listener);
 
         nextBtn.setOnClickListener(v -> {
+            if (!answered) {
+                // Skip attempt
+                if (skipsRemaining > 0) {
+                    skipsRemaining--;
+                    showSkipToast(skipsRemaining);
+                } else {
+                    Toast.makeText(this, "No skips remaining!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
             feedbackText.setText("Choose a song");
             enableAllOptions();
             loadNextSong();
         });
+
+    }
+
+    private void showSkipToast(int skipsLeft) {
+        TextView skipText = findViewById(R.id.skipStatusText);
+
+        String message = skipsLeft == 0
+                ? "No skips remaining"
+                : skipsLeft + " skips remaining";
+
+        skipText.setText(message);
+        skipText.setAlpha(0f);
+        skipText.setVisibility(View.VISIBLE);
+
+        // Fade in
+        skipText.animate()
+                .alpha(1f)
+                .setDuration(300)
+                .withEndAction(() -> {
+                    // Wait then fade out
+                    skipText.animate()
+                            .alpha(0f)
+                            .setDuration(300)
+                            .setStartDelay(1000)
+                            .withEndAction(() -> skipText.setVisibility(View.GONE))
+                            .start();
+                })
+                .start();
     }
 
     private void loadSongsFromJson() {
@@ -412,6 +455,7 @@ public class GameActivity extends  AppCompatActivity{
         outState.putBoolean("answered", answered);
         outState.putString("selectedAnswer", selectedAnswer);
         outState.putStringArrayList("currentOptions", new ArrayList<>(currentOptions));
+        outState.putInt("skipsRemaining", skipsRemaining);
 
         if(mediaPlayer != null){
             try{
@@ -675,6 +719,8 @@ public class GameActivity extends  AppCompatActivity{
         feedbackText.setText("Choose a Song");
         enableAllOptions();
         lives = 3;
+        skipsRemaining = 3;
+        answered = false;
         startNewGame();
         loadNextSong();
     }

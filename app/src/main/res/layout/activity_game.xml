@@ -17,6 +17,22 @@
         android:contentDescription="Settings"
         android:scaleType="centerInside" />
 
+    <TextView
+        android:id="@+id/skipStatusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:background="@drawable/skip_toast"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:elevation="6dp"
+        android:text="Skips remaining"
+        android:alpha="0" />
+
+
     <!-- Lives (top-right corner) -->
     <LinearLayout
         android:id="@+id/lives_container"
