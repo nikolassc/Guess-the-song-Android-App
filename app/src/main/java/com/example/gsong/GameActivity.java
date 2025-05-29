@@ -67,6 +67,7 @@ public class GameActivity extends  AppCompatActivity{
     private final Handler transitionHandler = new Handler();
     private Runnable correctAnswerRunnable;
 
+    private boolean minimizePause = false;
 
     //Animations of disks array
     private final String[] vinylFiles = {
@@ -271,6 +272,27 @@ public class GameActivity extends  AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.game_settings, menu);
         return true;
+    }
+
+    //when I minimize the app the music pauses
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            minimizePause = true;
+        } else {
+            minimizePause = false;
+        }
+    }
+
+    //when I open the app the music resumes
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mediaPlayer != null && minimizePause && !answered) {
+            mediaPlayer.start();
+        }
     }
 
     @Override
