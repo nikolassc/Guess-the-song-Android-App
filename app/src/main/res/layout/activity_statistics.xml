@@ -64,5 +64,12 @@
             android:layout_height="300dp"
             android:layout_marginTop="24dp" />
 
+        <Button
+            android:id="@+id/btn_reset_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset Stats"
+            android:layout_marginTop="24dp" />
+
     </LinearLayout>
 </ScrollView>

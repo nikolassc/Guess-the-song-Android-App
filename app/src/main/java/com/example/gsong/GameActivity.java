@@ -126,6 +126,7 @@ public class GameActivity extends  AppCompatActivity{
 
         statisticsManager = new StatisticsManager(this);
 
+
         feedbackText = findViewById(R.id.feedback_text);
 
         lifeIcons = new ImageView[] {
@@ -652,7 +653,7 @@ public class GameActivity extends  AppCompatActivity{
         selectedAnswer = answer;
         if (isCorrect) {
             correctAnswersCount++;
-            currentScore += 10;  // π.χ. 10 πόντοι για σωστή απάντηση
+            currentScore += 1;  // π.χ. 10 πόντοι για σωστή απάντηση
         } else {
             wrongAnswersCount++;
         }

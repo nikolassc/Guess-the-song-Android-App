@@ -1,7 +1,9 @@
 package com.example.gsong.ui.theme;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,13 +24,16 @@ public class StatisticsActivity extends AppCompatActivity {
     private TextView gamesPlayedTextView, correctAnswersTextView, wrongAnswersTextView;
     private TextView successRateTextView, highScoreTextView, avgCorrectTextView;
     private PieChart pieChart;
+    private Button resetStatsButton;
+
+    private StatisticsManager statsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        StatisticsManager statsManager = new StatisticsManager(this);
+        statsManager = new StatisticsManager(this);
 
         gamesPlayedTextView = findViewById(R.id.gamesPlayedTextView);
         correctAnswersTextView = findViewById(R.id.correctAnswersTextView);
@@ -37,7 +42,18 @@ public class StatisticsActivity extends AppCompatActivity {
         highScoreTextView = findViewById(R.id.highScoreTextView);
         avgCorrectTextView = findViewById(R.id.avgCorrectTextView);
         pieChart = findViewById(R.id.pie_chart);
+        resetStatsButton = findViewById(R.id.btn_reset_stats);
 
+        loadAndDisplayStats();
+
+        resetStatsButton.setOnClickListener(v -> {
+            statsManager.resetStats();
+            Toast.makeText(this, "Statistics reset!", Toast.LENGTH_SHORT).show();
+            loadAndDisplayStats(); // Ενημέρωσε την οθόνη μετά το reset
+        });
+    }
+
+    private void loadAndDisplayStats() {
         int gamesPlayed = statsManager.getGamesPlayed();
         int correct = statsManager.getCorrectAnswers();
         int wrong = statsManager.getWrongAnswers();
