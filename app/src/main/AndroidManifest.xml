@@ -33,7 +33,7 @@
             android:parentActivityName=".MainActivity" />
 
         <activity
-            android:name=".StatsActivity"
+            android:name=".ui.theme.StatisticsActivity"
             android:label="Στατιστικά"
             android:parentActivityName=".MainActivity" />
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/gamesPlayedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Games Played:"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/correctAnswersTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Correct Answers:"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/wrongAnswersTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wrong Answers:"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/successRateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Success Rate:"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/highScoreTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="High Score:"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/avgCorrectTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Avg Correct/Game:"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+</ScrollView>

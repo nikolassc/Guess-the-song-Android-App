@@ -46,6 +46,20 @@ import java.util.Random;
 
 
 public class GameActivity extends  AppCompatActivity{
+    public int getCorrectAnswerCount() {
+        return correctAnswersCount;
+    }
+
+    public int getWrongAnswerCount() {
+        return wrongAnswersCount;
+    }
+
+    public int calculateScore() {
+        return currentScore;
+    }
+    private int correctAnswersCount = 0;
+    private int wrongAnswersCount = 0;
+    private int currentScore = 0;
     private MediaPlayer mediaPlayer;
     private TextView feedbackText;
     private Song rightSong;
@@ -92,6 +106,10 @@ public class GameActivity extends  AppCompatActivity{
     };
     private int selectedLifeDrawable;
 
+    private StatisticsManager statisticsManager;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstansedState){
         //Load the songs to the database (only the first time the app is opened)
@@ -105,6 +123,8 @@ public class GameActivity extends  AppCompatActivity{
 
         super.onCreate(savedInstansedState);
         setContentView(R.layout.activity_game);
+
+        statisticsManager = new StatisticsManager(this);
 
         feedbackText = findViewById(R.id.feedback_text);
 
@@ -345,6 +365,12 @@ public class GameActivity extends  AppCompatActivity{
             feedbackText.setText("Game Over!");
             disableAllOptions();
             nextBtn.setEnabled(false);
+            // Κλήση αποθήκευσης στατιστικών
+            statisticsManager.recordGame(
+                    /*correct=*/ getCorrectAnswerCount(),
+                    /*wrong=*/ getWrongAnswerCount(),
+                    /*score=*/ calculateScore()
+            );
             showGameOverDialog();
         }
 
@@ -516,6 +542,12 @@ public class GameActivity extends  AppCompatActivity{
             feedbackText.setText("No more unique songs. Game over!");
             disableAllOptions();
             nextBtn.setEnabled(false);
+            // Κλήση αποθήκευσης στατιστικών
+            statisticsManager.recordGame(
+                    /*correct=*/ getCorrectAnswerCount(),
+                    /*wrong=*/ getWrongAnswerCount(),
+                    /*score=*/ calculateScore()
+            );
             return;
         }
 
@@ -618,6 +650,12 @@ public class GameActivity extends  AppCompatActivity{
         boolean isCorrect = answer.equals(rightSong.title);
         answered = true;
         selectedAnswer = answer;
+        if (isCorrect) {
+            correctAnswersCount++;
+            currentScore += 10;  // π.χ. 10 πόντοι για σωστή απάντηση
+        } else {
+            wrongAnswersCount++;
+        }
 
         // Disable all buttons immediately
         disableAllOptions();
@@ -708,6 +746,8 @@ public class GameActivity extends  AppCompatActivity{
     }
 
     private void showGameOverDialog() {
+        // Αποθήκευση στατιστικών
+        statisticsManager.recordGame(correctAnswersCount, wrongAnswersCount, currentScore);
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
         View dialogView = getLayoutInflater().inflate(R.layout.game_over_dialog, null);
         builder.setView(dialogView);

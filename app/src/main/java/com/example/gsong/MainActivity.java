@@ -1,10 +1,12 @@
 package com.example.gsong;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.gsong.data.SongDao;
 import com.example.gsong.data.SongDatabase;
 import com.example.gsong.models.Song;
+import com.example.gsong.ui.theme.StatisticsActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button buttonStartGame, buttonHowToPlay, buttonStats, buttonExit ;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         // Κουμπιά
         buttonStartGame = findViewById(R.id.button_start_game);
         buttonHowToPlay = findViewById(R.id.button_how_to_play);
-        buttonStats = findViewById(R.id.button_stats);
+        buttonStats = findViewById(R.id.buttonStats);
         buttonExit = findViewById(R.id.button_exit);
 
         buttonStartGame.setOnClickListener(v -> {
@@ -58,11 +62,14 @@ public class MainActivity extends AppCompatActivity {
         howToPlayButton.setOnClickListener(v -> showHowToPlayDialog());
 
 
+        buttonStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+                startActivity(intent);
+            }
+        });
 
-       /* buttonStats.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, StatsActivity.class);
-            startActivity(intent);
-        });  */
         buttonExit.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Exit")
@@ -71,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     .setNegativeButton("No", null)
                     .show();
         });
-
 
 
     }
