@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Layout for the GameActivity screen
+    Contains buttons, text, and a Lottie animation
+-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!-- Settings button always top-left -->
+    <!--Settings button (top-left corner)-->
     <ImageButton
         android:id="@+id/settings_button"
         android:layout_width="56dp"
@@ -17,6 +21,7 @@
         android:contentDescription="Settings"
         android:scaleType="centerInside" />
 
+    <!--Skip status text-->
     <TextView
         android:id="@+id/skipStatusText"
         android:layout_width="wrap_content"
@@ -32,8 +37,7 @@
         android:text="Skips remaining"
         android:alpha="0" />
 
-
-    <!-- Lives (top-right corner) -->
+    <!--Lives icons (top-right corner)-->
     <LinearLayout
         android:id="@+id/lives_container"
         android:layout_width="wrap_content"
@@ -43,6 +47,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp">
 
+        <!--3 life icons-->
         <ImageView
             android:id="@+id/life1"
             android:layout_width="32dp"
@@ -65,8 +70,7 @@
             android:src="@drawable/life_placeholder" />
     </LinearLayout>
 
-
-    <!-- Main content -->
+    <!--Main content: vertical layout for animation, question text, answers-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -74,9 +78,7 @@
         android:gravity="center_horizontal"
         android:padding="24dp">
 
-        <!-- Vinyl Animation -->
-
-        <!-- Question Text -->
+        <!--Vinyl Lottie animation-->
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/vinyl_animation"
             android:layout_width="250dp"
@@ -87,6 +89,7 @@
             app:lottie_fileName="vinyl1.json"
             app:lottie_loop="true" />
 
+        <!--Feedback text ("Choose a Song")-->
         <TextView
             android:id="@+id/feedback_text"
             android:layout_width="wrap_content"
@@ -98,7 +101,7 @@
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
-        <!-- Options -->
+        <!--Buttons for song options-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -134,7 +137,7 @@
                 android:layout_marginBottom="10dp" />
         </LinearLayout>
 
-        <!-- Next Song Button -->
+        <!--Next Song button at the bottom-->
         <Button
             android:id="@+id/next_button"
             style="@style/AppButton"

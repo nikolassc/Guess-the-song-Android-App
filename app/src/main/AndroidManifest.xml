@@ -28,11 +28,6 @@
         <activity android:name=".GameActivity" />
 
         <activity
-            android:name=".AddSongActivity"
-            android:label="Προσθήκη Τραγουδιού"
-            android:parentActivityName=".MainActivity" />
-
-        <activity
             android:name=".ui.theme.StatisticsActivity"
             android:label="Στατιστικά"
             android:parentActivityName=".MainActivity" />

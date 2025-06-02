@@ -3,7 +3,7 @@ package com.example.gsong;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class StatisticsManager {
+public class  StatisticsManager {
     private static final String PREFS_NAME = "game_stats";
     private final SharedPreferences prefs;
 

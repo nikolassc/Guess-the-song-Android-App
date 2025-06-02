@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Layout for the "How to Play" dialog
+    Displays the game instructions and a "Got it!" button to close the dialog
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -7,6 +11,7 @@
     android:background="?attr/colorBackgroundFloating"
     android:layout_gravity="center_horizontal">
 
+    <!--Title of the dialog-->
     <TextView
         android:id="@+id/how_to_play_title"
         android:layout_width="wrap_content"
@@ -17,6 +22,7 @@
         android:textColor="?attr/colorOnBackground"
         android:layout_marginBottom="16dp" />
 
+    <!--Game instructions message-->
     <TextView
         android:id="@+id/how_to_play_message"
         android:layout_width="wrap_content"
@@ -26,7 +32,7 @@
         android:textSize="16sp"
         android:lineSpacingExtra="4dp" />
 
-    <!-- Custom "Got It!" button at bottom right -->
+    <!--"Got it!" button at the bottom-right-->
     <TextView
         android:id="@+id/btn_close_dialog"
         android:layout_width="wrap_content"

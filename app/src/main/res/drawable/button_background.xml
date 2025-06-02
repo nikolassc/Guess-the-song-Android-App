@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    A ripple drawable for button background that adds a ripple effect on touch.
+    The ripple color uses the system's colorControlHighlight attribute for visual consistency.
+-->
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="?android:attr/colorControlHighlight">
+
+    <!-- The default background shape of the button -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/button"/>
+            <!-- The solid fill color for the button background -->
+            <solid android:color="@color/button" />
+            <!-- Rounded corners for the button -->
             <corners android:radius="16dp" />
         </shape>
     </item>
+
 </ripple>

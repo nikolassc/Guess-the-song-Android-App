@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    A transition drawable that smoothly transitions between two states
+    Used for showing the effect of a correct answer button
+-->
 <transition xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--First state: the button's pressed color-->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/button_pressed" />
-            <corners android:radius="16dp" />
+            <solid android:color="@color/button_pressed" /> <!--Color when button is pressed-->
+            <corners android:radius="16dp" /> <!--Rounded corners for better visual style-->
         </shape>
     </item>
+
+    <!--Second state: the correct answer color (green=correct)-->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/correct" />
-            <corners android:radius="16dp" />
+            <solid android:color="@color/correct" /> <!--Color when answer is correct-->
+            <corners android:radius="16dp" /> <!--Rounded corners-->
         </shape>
     </item>
+
 </transition>
