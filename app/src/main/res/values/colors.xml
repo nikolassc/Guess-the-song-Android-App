@@ -9,4 +9,6 @@
     <color name="correct">#4CAF50</color>       <!-- Correct -->
     <color name="wrong">#F44336</color>         <!-- Wrong -->
 
+    <color name="ic_launcher_background">#E7004F</color>
+
 </resources>
