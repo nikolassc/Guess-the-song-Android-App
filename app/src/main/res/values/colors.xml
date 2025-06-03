@@ -10,5 +10,10 @@
     <color name="wrong">#F44336</color>         <!-- Wrong -->
 
     <color name="ic_launcher_background">#E7004F</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_700">#018786</color>
+    <color name="red_700">#B00020</color>
+    <color name="black">#000000</color>
+
 
 </resources>

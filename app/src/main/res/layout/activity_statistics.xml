@@ -1,62 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#0B0B0B">
 
     <LinearLayout
-        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/gamesPlayedTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Games Played:"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/correctAnswersTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Correct Answers:"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/wrongAnswersTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Wrong Answers:"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/successRateTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Success Rate:"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/highScoreTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="High Score:"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/avgCorrectTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Avg Correct/Game:"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp" />
+            android:textSize="18sp" />
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie_chart"
@@ -68,8 +69,9 @@
             android:id="@+id/btn_reset_stats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reset Stats"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#009688"
+            android:text="Reset Stats" />
 
     </LinearLayout>
 </ScrollView>

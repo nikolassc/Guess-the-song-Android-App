@@ -8,25 +8,35 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="LISTN UP"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GSong"
         tools:targetApi="31">
 
+        <!-- Splash screen with video -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.GSong">
+            android:name=".ui.theme.SplashActivity"
+            android:theme="@style/Theme.GSong.Splash"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+
+        <!-- Main screen after splash -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="LISTN UP"
+            android:theme="@style/Theme.GSong" />
+
+        <!-- Game screen -->
         <activity android:name=".GameActivity" />
 
+        <!-- Statistics screen -->
         <activity
             android:name=".ui.theme.StatisticsActivity"
             android:label="Στατιστικά"

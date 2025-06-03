@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         preloadSongsFromJson(this);
 
         // Toolbar
-        Toolbar toolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Guess the Song");
+       // Toolbar toolbar = findViewById(R.id.my_toolbar);
+        //setSupportActionBar(toolbar);
+        //getSupportActionBar().setTitle("Guess the Song");
 
         // Κουμπιά
         buttonStartGame = findViewById(R.id.button_start_game);
