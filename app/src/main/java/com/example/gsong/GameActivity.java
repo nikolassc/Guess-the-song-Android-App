@@ -452,11 +452,11 @@ public class GameActivity extends AppCompatActivity {
             nextBtn.setEnabled(false); //Disable next button
 
             //Record final game statistics
-            statisticsManager.recordGame(
-                    /* correct= */ getCorrectAnswerCount(),
-                    /* wrong= */ getWrongAnswerCount(),
-                    /* score= */ calculateScore()
-            );
+         //   statisticsManager.recordGame(
+           //         /* correct= */ getCorrectAnswerCount(),
+             //       /* wrong= */ getWrongAnswerCount(),
+               //     /* score= */ calculateScore()
+           // );
 
             //Show game over dialog to the user
             showGameOverDialog();
@@ -678,11 +678,11 @@ public class GameActivity extends AppCompatActivity {
             nextBtn.setEnabled(false);
 
             //Save the player's game statistics
-            statisticsManager.recordGame(
-                    /* correct= */ getCorrectAnswerCount(),
-                    /* wrong= */ getWrongAnswerCount(),
-                    /* score= */ calculateScore()
-            );
+          //  statisticsManager.recordGame(
+            //        /* correct= */ getCorrectAnswerCount(),
+              //      /* wrong= */ getWrongAnswerCount(),
+                //    /* score= */ calculateScore()
+            //);
             return;
         }
 
