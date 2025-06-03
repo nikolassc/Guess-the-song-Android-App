@@ -25,6 +25,7 @@ public class  StatisticsManager {
 
         editor.apply();
     }
+    
 
     public int getGamesPlayed() {
         return prefs.getInt("games_played", 0);
