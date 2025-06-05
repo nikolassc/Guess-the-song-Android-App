@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Εξωτερικό container που επιτρέπει scroll αν το περιεχόμενο δεν χωράει στην οθόνη -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0B0B0B">
 
+
+    <!-- Κάθετο LinearLayout για στοίχιση στοιχείων κάθετα -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"><!-- Περιθώριο γύρω από το περιεχόμενο -->
 
+        <!-- Εμφάνιση αριθμού παιχνιδιών -->
         <TextView
             android:id="@+id/gamesPlayedTextView"
             android:layout_width="match_parent"
@@ -20,6 +24,7 @@
             android:text="Games Played:"
             android:textSize="18sp" />
 
+        <!-- Σωστές απαντήσεις -->
         <TextView
             android:id="@+id/correctAnswersTextView"
             android:layout_width="match_parent"
@@ -29,6 +34,7 @@
             android:text="Correct Answers:"
             android:textSize="18sp" />
 
+        <!-- Λάθος απαντήσεις -->
         <TextView
             android:id="@+id/wrongAnswersTextView"
             android:layout_width="match_parent"
@@ -38,6 +44,7 @@
             android:text="Wrong Answers:"
             android:textSize="18sp" />
 
+        <!-- Ποσοστό επιτυχίας -->
         <TextView
             android:id="@+id/successRateTextView"
             android:layout_width="match_parent"
@@ -47,6 +54,7 @@
             android:text="Success Rate:"
             android:textSize="18sp" />
 
+        <!-- Υψηλότερο σκορ -->
         <TextView
             android:id="@+id/highScoreTextView"
             android:layout_width="match_parent"
@@ -56,6 +64,7 @@
             android:text="High Score:"
             android:textSize="18sp" />
 
+        <!-- Μέσος όρος σωστών απαντήσεων ανά παιχνίδι -->
         <TextView
             android:id="@+id/avgCorrectTextView"
             android:layout_width="match_parent"
@@ -65,12 +74,14 @@
             android:text="Avg Correct/Game:"
             android:textSize="18sp" />
 
+        <!-- Γράφημα τύπου Pie Chart για απεικόνιση σωστών/λάθος -->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie_chart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="24dp" />
 
+        <!-- Κουμπί για μηδενισμό στατιστικών -->
         <Button
             android:id="@+id/btn_reset_stats"
             android:layout_width="wrap_content"

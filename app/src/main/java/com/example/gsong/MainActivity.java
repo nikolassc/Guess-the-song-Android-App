@@ -29,10 +29,10 @@ import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 
-
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonStartGame, buttonHowToPlay, buttonStats, buttonExit ;
+    // Δήλωση των βασικών κουμπιών της αρχικής οθόνης
+    Button buttonStartGame, buttonHowToPlay, buttonStats, buttonExit;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,69 +40,73 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Προφόρτωση τραγουδιών από JSON (πχ. assets/songs.json)
+        // Προφόρτωση των τραγουδιών από το αρχείο JSON μόνο την πρώτη φορά
         preloadSongsFromJson(this);
 
-
-
-        // Κουμπιά
+        // Σύνδεση των μεταβλητών με τα κουμπιά του layout
         buttonStartGame = findViewById(R.id.button_start_game);
         buttonHowToPlay = findViewById(R.id.button_how_to_play);
         buttonStats = findViewById(R.id.buttonStats);
         buttonExit = findViewById(R.id.button_exit);
 
+        // Εκκίνηση του παιχνιδιού
         buttonStartGame.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
             startActivity(intent);
         });
 
-        Button howToPlayButton = findViewById(R.id.button_how_to_play);
-        howToPlayButton.setOnClickListener(v -> showHowToPlayDialog());
+        // Εμφάνιση διαλόγου "Πώς να παίξεις"
+        buttonHowToPlay.setOnClickListener(v -> showHowToPlayDialog());
 
-
-        buttonStats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
-                startActivity(intent);
-            }
+        // Εμφάνιση της οθόνης στατιστικών
+        buttonStats.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+            startActivity(intent);
         });
 
+        // Επιβεβαίωση εξόδου από την εφαρμογή
         buttonExit.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Exit")
                     .setMessage("Are you sure you want to close the app")
-                    .setPositiveButton("Yes", (dialog, which) -> finishAffinity())
-                    .setNegativeButton("No", null)
+                    .setPositiveButton("Yes", (dialog, which) -> finishAffinity()) // Κλείνει την εφαρμογή
+                    .setNegativeButton("No", null) // Ακύρωση
                     .show();
         });
-
-
     }
 
+    // Εμφάνιση του custom dialog "How To Play"
     private void showHowToPlayDialog() {
         HowToPlayDialogFragment dialogFragment = new HowToPlayDialogFragment();
         dialogFragment.show(getSupportFragmentManager(), "how_to_play");
     }
 
-
+    /**
+     * Φορτώνει τα τραγούδια από το αρχείο assets/songs.json και τα αποθηκεύει στη βάση αν δεν υπάρχουν ήδη.
+     */
     private void preloadSongsFromJson(Context context) {
         SongDao songDao = SongDatabase.getInstance(context).songDao();
 
         try {
+            // Άνοιγμα του αρχείου JSON από τα assets
             InputStream is = context.getAssets().open("songs.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
+
+            // Μετατροπή σε string
             String json = new String(buffer, StandardCharsets.UTF_8);
 
+            // Χρήση Gson για μετατροπή του JSON σε λίστα αντικειμένων Song
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Song>>() {}.getType();
             List<Song> songList = gson.fromJson(json, listType);
 
+            // Λήψη ήδη αποθηκευμένων τραγουδιών
             List<Song> existingSongs = songDao.getAllSongs();
 
+            // Προσθήκη τραγουδιών που δεν υπάρχουν ήδη στη βάση
             for (Song song : songList) {
                 boolean alreadyExists = false;
                 for (Song existing : existingSongs) {
@@ -112,11 +116,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if (!alreadyExists) {
-                    songDao.insert(song);
+                    songDao.insert(song); // Εισαγωγή νέου τραγουδιού
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Αν υπάρξει πρόβλημα με το διάβασμα του αρχείου
         }
     }
 }
