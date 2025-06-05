@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
             android:text="Games Played:"
             android:textSize="18sp" />
 
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
             android:text="Correct Answers:"
             android:textSize="18sp" />
 
@@ -32,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
             android:text="Wrong Answers:"
             android:textSize="18sp" />
 
@@ -40,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
             android:text="Success Rate:"
             android:textSize="18sp" />
 
@@ -48,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
             android:text="High Score:"
             android:textSize="18sp" />
 
@@ -56,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
             android:text="Avg Correct/Game:"
             android:textSize="18sp" />
 
