@@ -4,16 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--android:background="@mipmap/ic_launcher_foreground">-->
 
 
-    <!-- Start Game Button -->
 
-    <!-- How To Play Button -->
 
-    <!-- Statistics Button -->
 
-    <!-- Exit Button -->
+
+
+
+
+
 
     <ImageView
         android:id="@+id/backgroundImage"
@@ -28,6 +28,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <!-- Start Game Button -->
 
     <Button
         android:id="@+id/button_start_game"
@@ -49,6 +51,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <!-- How To Play Button -->
+
     <Button
         android:id="@+id/button_how_to_play"
         android:layout_width="wrap_content"
@@ -69,6 +73,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.001" />
 
+    <!-- Statistics Button -->
+
     <Button
         android:id="@+id/buttonStats"
         android:layout_width="wrap_content"
@@ -88,6 +94,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_how_to_play"
         app:layout_constraintVertical_bias="1.0" />
+
+    <!-- Exit Button -->
 
     <Button
         android:id="@+id/button_exit"

@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.gsong.R;
 import com.example.gsong.StatisticsManager;
@@ -94,6 +95,8 @@ public class StatisticsActivity extends AppCompatActivity {
         Legend legend = pieChart.getLegend();
         legend.setTextSize(14f);
         legend.setFormSize(14f);
+        legend.setTextColor(ContextCompat.getColor(this, R.color.white));
+
 
         pieChart.invalidate(); // refresh chart
     }

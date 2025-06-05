@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.gsong.data.SongDao;
 import com.example.gsong.data.SongDatabase;
 import com.example.gsong.models.Song;
+import com.example.gsong.ui.theme.HowToPlayDialogFragment;
 import com.example.gsong.ui.theme.StatisticsActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,10 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // Προφόρτωση τραγουδιών από JSON (πχ. assets/songs.json)
         preloadSongsFromJson(this);
 
-        // Toolbar
-       // Toolbar toolbar = findViewById(R.id.my_toolbar);
-        //setSupportActionBar(toolbar);
-        //getSupportActionBar().setTitle("Guess the Song");
+
 
         // Κουμπιά
         buttonStartGame = findViewById(R.id.button_start_game);
@@ -83,16 +81,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showHowToPlayDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
-        View dialogView = getLayoutInflater().inflate(R.layout.how_to_play_dialog, null);
-        builder.setView(dialogView);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        TextView closeBtn = dialogView.findViewById(R.id.btn_close_dialog);
-        closeBtn.setOnClickListener(v -> dialog.dismiss());
+        HowToPlayDialogFragment dialogFragment = new HowToPlayDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(), "how_to_play");
     }
+
 
     private void preloadSongsFromJson(Context context) {
         SongDao songDao = SongDatabase.getInstance(context).songDao();
