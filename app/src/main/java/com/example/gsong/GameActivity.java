@@ -143,7 +143,7 @@ public class GameActivity extends AppCompatActivity {
 
     //Calculates and returns the current score
     public int calculateScore() {
-        return currentScore;
+        return correctAnswersCount;
     }
 
     @Override
@@ -163,6 +163,8 @@ public class GameActivity extends AppCompatActivity {
 
         //Initialize the statistics manager
         statisticsManager = new StatisticsManager(this);
+
+        int highScore = statisticsManager.getHighScore();
 
         //Get a reference to the feedback text where the app shows "Correct" or "Wrong" feedback
         feedbackText = findViewById(R.id.feedback_text);
@@ -197,6 +199,8 @@ public class GameActivity extends AppCompatActivity {
             selectedAnswer = savedInstansedState.getString("selectedAnswer");
             seekPosition = savedInstansedState.getInt("songPosition", 0);
             currentVinyl = savedInstansedState.getString("currentVinyl");
+            correctAnswersCount = savedInstansedState.getInt("correctAnswersCount");
+            wrongAnswersCount = savedInstansedState.getInt("wrongAnswersCount");
             lives = savedInstansedState.getInt("lives", 3);
             selectedLifeDrawable = savedInstansedState.getInt("selectedLifeDrawable", R.drawable.life_placeholder);
             answered = savedInstansedState.getBoolean("answered", false);
@@ -622,6 +626,12 @@ public class GameActivity extends AppCompatActivity {
         //Save the currently selected life icon
         outState.putInt("selectedLifeDrawable", selectedLifeDrawable);
 
+        //Save the number of correct answers
+        outState.putInt("correctAnswersCount", correctAnswersCount);
+
+        //Save the number of wrong answers
+        outState.putInt("wrongAnswersCount", wrongAnswersCount);
+
         //Save whether the user has already answered
         outState.putBoolean("answered", answered);
 
@@ -925,8 +935,9 @@ public class GameActivity extends AppCompatActivity {
      * The dialog allows the user to restart the game, return to the main menu or exit the app.
      */
     private void showGameOverDialog() {
-        //Save the player's final statistics
-        statisticsManager.recordGame(correctAnswersCount, wrongAnswersCount, currentScore);
+        //Save the player's final sstatistics
+        int finalScore = calculateScore();
+        statisticsManager.recordGame(correctAnswersCount, wrongAnswersCount, finalScore);
 
         //Create the dialog using a custom style
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
