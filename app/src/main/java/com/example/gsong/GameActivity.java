@@ -86,6 +86,12 @@ public class GameActivity extends AppCompatActivity {
     //Flag to indicate if the user has already answered the current question
     private boolean answered = false;
 
+    //Flag to indicate if the Game Over dialog is shown
+    private boolean gameOverDialog = false;
+
+    //Flag to indicate if the Settings dialog is shown
+    private boolean settingsDialog = false;
+
     //Number of skips the user has remaining, has 3 skips
     private int skipsRemaining = 3;
 
@@ -100,6 +106,9 @@ public class GameActivity extends AppCompatActivity {
 
     //Flag to track if the music should be resumed after the app was minimized
     private boolean minimizePause = false;
+
+    //Keeps a single instance of the Game Over dialog to prevent recreating it during screen rotation
+    private AlertDialog gameOverDialogInstance;
 
     //Array of json file names for vinyl animations
     private final String[] vinylFiles = {
@@ -161,6 +170,20 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstansedState);
         setContentView(R.layout.activity_game);
 
+        if (savedInstansedState != null) {
+            gameOverDialog = savedInstansedState.getBoolean("gameOverDialog", false);
+            if (gameOverDialog) {
+                showGameOverDialog();
+            }
+        }
+
+        if (savedInstansedState != null) {
+            settingsDialog = savedInstansedState.getBoolean("settingsDialog", false);
+            if (settingsDialog) {
+                showSettingsDialog();
+            }
+        }
+
         //Initialize the statistics manager
         statisticsManager = new StatisticsManager(this);
 
@@ -203,6 +226,7 @@ public class GameActivity extends AppCompatActivity {
             wrongAnswersCount = savedInstansedState.getInt("wrongAnswersCount");
             lives = savedInstansedState.getInt("lives", 3);
             selectedLifeDrawable = savedInstansedState.getInt("selectedLifeDrawable", R.drawable.life_placeholder);
+            currentVolume = savedInstansedState.getFloat("currentVolume", 1.0f); // Default to full volume
             answered = savedInstansedState.getBoolean("answered", false);
             selectedAnswer = savedInstansedState.getString("selectedAnswer", null);
             currentOptions = savedInstansedState.getStringArrayList("currentOptions");
@@ -617,6 +641,9 @@ public class GameActivity extends AppCompatActivity {
         //Save the current correct song
         outState.putSerializable("rightSong", (Serializable) rightSong);
 
+        // Save the current volume
+        outState.putFloat("currentVolume", currentVolume);
+
         //Save the vinyl animation that is currently showing
         outState.putString("currentVinyl", currentVinyl);
 
@@ -634,6 +661,12 @@ public class GameActivity extends AppCompatActivity {
 
         //Save whether the user has already answered
         outState.putBoolean("answered", answered);
+
+        //Save the Game Over menu
+        outState.putBoolean("gameOverDialog", gameOverDialog);
+
+        //Save the Settings menu
+        outState.putBoolean("settingsDialog", settingsDialog);
 
         //Save the current order of the answer options
         outState.putStringArrayList("currentOptions", new ArrayList<>(currentOptions));
@@ -877,6 +910,7 @@ public class GameActivity extends AppCompatActivity {
      * Allows the user to adjust the volume and offers buttons to restart, go to main menu or exit the game
      */
     private void showSettingsDialog() {
+        settingsDialog = true;
         //Create a custom AlertDialog with a custom style
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
@@ -934,42 +968,51 @@ public class GameActivity extends AppCompatActivity {
      * Displays the game over dialog when the player has no more lives
      * The dialog allows the user to restart the game, return to the main menu or exit the app.
      */
+
     private void showGameOverDialog() {
-        //Save the player's final sstatistics
+        gameOverDialog = true;
+
+        // Save the player's final statistics )
         int finalScore = calculateScore();
         statisticsManager.recordGame(correctAnswersCount, wrongAnswersCount, finalScore);
 
-        //Create the dialog using a custom style
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+        //Check if the dialog instance already exists
+        if (gameOverDialogInstance == null) {
+            //Create the dialog using a custom style
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
-        //Inflate the custom layout for the game over dialog
-        View dialogView = getLayoutInflater().inflate(R.layout.game_over_dialog, null);
-        builder.setView(dialogView);
+            //Inflate the custom layout for the game over dialog
+            View dialogView = getLayoutInflater().inflate(R.layout.game_over_dialog, null);
+            builder.setView(dialogView);
 
-        //Create and show the dialog
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.dialog_background));
-        dialog.setCancelable(false); //Prevent closing the dialog by tapping outside
-        dialog.show();
+            //Create the dialog only once
+            gameOverDialogInstance = builder.create();
+            gameOverDialogInstance.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.dialog_background));
+            gameOverDialogInstance.setCancelable(false); //Prevent closing the dialog by tapping outside
 
-        //Button: Restart the game
-        dialogView.findViewById(R.id.btn_restart).setOnClickListener(v -> {
-            dialog.dismiss();
-            restartGame(); //Restart the game
-        });
+            // Button: Restart the game
+            dialogView.findViewById(R.id.btn_restart).setOnClickListener(v -> {
+                gameOverDialogInstance.dismiss();
+                restartGame(); //Restart the game
+            });
 
-        //Button: Go to main menu
-        dialogView.findViewById(R.id.btn_home).setOnClickListener(v -> {
-            dialog.dismiss();
-            goToMainMenu(); //Navigate to main menu
-        });
+            //Button: Go to main menu
+            dialogView.findViewById(R.id.btn_home).setOnClickListener(v -> {
+                gameOverDialogInstance.dismiss();
+                goToMainMenu(); //Navigate to main menu
+            });
 
-        //Button: Exit the application
-        dialogView.findViewById(R.id.btn_exit).setOnClickListener(v -> {
-            dialog.dismiss();
-            finishAffinity(); //Exit the  app
-        });
+            //Button: Exit the application
+            dialogView.findViewById(R.id.btn_exit).setOnClickListener(v -> {
+                gameOverDialogInstance.dismiss();
+                finishAffinity(); //Exit the app
+            });
+        }
+
+        // Show the dialog
+        gameOverDialogInstance.show();
     }
+
 
     /**
      * Restarts the game by resetting all relevant variables and UI
