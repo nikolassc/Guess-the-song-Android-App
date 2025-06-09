@@ -177,12 +177,6 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
-        if (savedInstansedState != null) {
-            settingsDialog = savedInstansedState.getBoolean("settingsDialog", false);
-            if (settingsDialog) {
-                showSettingsDialog();
-            }
-        }
 
         //Initialize the statistics manager
         statisticsManager = new StatisticsManager(this);
