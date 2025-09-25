@@ -49,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
         buttonStats = findViewById(R.id.buttonStats);
         buttonExit = findViewById(R.id.button_exit);
 
-        // Εκκίνηση του παιχνιδιού
+        // Εκκίνηση της οθόνης επιλογής είδους μουσικής
         buttonStartGame.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, GameActivity.class);
+            Intent intent = new Intent(MainActivity.this, com.example.gsong.GenreSelectionActivity.class);
             startActivity(intent);
         });
+
 
         // Εμφάνιση διαλόγου "Πώς να παίξεις"
         buttonHowToPlay.setOnClickListener(v -> showHowToPlayDialog());

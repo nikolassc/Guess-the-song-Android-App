@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/listn_up"
+        android:background="@drawable/background_inset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/genre_buttons_layout"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/button_pop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pop"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/purple_700"
+            app:cornerRadius="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/button_rap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rap"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/purple_700"
+            app:cornerRadius="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/button_rock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rock"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/purple_700"
+            app:cornerRadius="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/button_entexno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ελλ. Έντεχνο"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/purple_700"
+            app:cornerRadius="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/button_laiko"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ελλ. Λαϊκό"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/purple_700"
+            app:cornerRadius="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/button_ell_pop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ελλ. Ποπ"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/purple_700"
+            app:cornerRadius="20dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/button_ell_trap_rap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ελλ. Τραπ / Ραπ"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/purple_700"
+            app:cornerRadius="20dp"
+            android:layout_marginBottom="12dp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
